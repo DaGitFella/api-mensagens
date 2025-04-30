@@ -1,7 +1,3 @@
-Claro! Aqui está um modelo de README para a sua API, explicando detalhadamente como configurar o ambiente com `poetry`:
-
----
-
 # 📡 API de Mensagens
 
 Este repositório contém a API de mensagens, desenvolvida com Python e gerenciada com [Poetry](https://python-poetry.org/), focando em um ambiente isolado e organizado para dependências.
@@ -70,5 +66,3 @@ task start
 Este projeto está licenciado sob os termos da GPL3.
 
 ---
-
-Se quiser, posso adaptar o conteúdo para Markdown com ícones, badge de status de build, ou incluir instruções sobre variáveis de ambiente e testes. Deseja isso?
