@@ -1,6 +1,4 @@
 from api_mensagens.db.session import SessionLocal
-from fastapi import Depends
-from sqlalchemy.orm import Session
 
 def get_db():
     db = SessionLocal()

@@ -9,7 +9,7 @@ def check_if_message_exists(db: Session, message: MessageCreate) -> bool:
         return False
     return True
 
-def create_message(db: Session, message: MessageCreate):
+def create_message(db: Session, message: MessageCreate) -> Message:
     if not check_if_message_exists(db, message):
         db_message = Message(id=message.id, content=message.content)
         db.add(db_message)
