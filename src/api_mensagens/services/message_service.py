@@ -3,12 +3,20 @@ from api_mensagens.schemas.message import MessageCreate
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 
+def check_if_message_exists(db: Session, message: MessageCreate) -> bool:
+    exists = db.query(Message).filter_by(id=message.id).first()
+    if not exists:
+        return False
+    return True
+
 def create_message(db: Session, message: MessageCreate):
-    db_message = Message(content=message.content)
-    db.add(db_message)
-    db.commit()
-    db.refresh(db_message)
-    return db_message
+    if not check_if_message_exists(db, message):
+        db_message = Message(id=message.id, content=message.content)
+        db.add(db_message)
+        db.commit()
+        db.refresh(db_message)
+        return db_message
+    raise HTTPException(status_code=409, detail="Message already exists")
 
 def get_all_messages(db: Session):
     return db.query(Message).all()
