@@ -1,17 +1,19 @@
 from fastapi import APIRouter, Depends
-from api_mensagens.schemas.message import MessageCreate
 from api_mensagens.services import message_service
 from api_mensagens.api.deps import get_db
 from sqlalchemy.orm import Session
+from api_mensagens.schemas.message import MessageCreate
+from typing import List
+from http import HTTPStatus
 
 router = APIRouter()
 
 
-@router.post('/')
+@router.post('/', status_code=HTTPStatus.CREATED, response_model=MessageCreate)
 def create_message(message: MessageCreate, db: Session = Depends(get_db)):
     return message_service.create_message(db, message)
 
-@router.get('/')
+@router.get('/', response_model=List[MessageCreate])
 def get_messages(db: Session = Depends(get_db)):
     return message_service.get_all_messages(db)
 
