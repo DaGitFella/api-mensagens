@@ -1,7 +1,12 @@
 from pydantic import BaseModel, ConfigDict
 
 
-class Message(BaseModel):
+class MessageCreate(BaseModel):
+    content: str
+
+class PublicMessage(BaseModel):
     id: int
     content: str
-    model_config = ConfigDict(from_attributes=True)
+
+class ListMessages(BaseModel):
+    messages: list[PublicMessage]
