@@ -59,9 +59,3 @@ task run
 - O uso do `pipx` garante que o `poetry` não conflite com outros pacotes Python no sistema global.
 
 ---
-
-## 📄 Licença
-
-Este projeto está licenciado sob os termos da GPL3.
-
----
