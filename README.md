@@ -45,7 +45,7 @@ poetry install                      # Instala todas as dependências do projeto
 
 ## ▶️ Rodando a API
 
-Entre na pasta do projeto:
+Na raiz do projeto:
 
 ```bash
 task run
