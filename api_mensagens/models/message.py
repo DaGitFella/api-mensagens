@@ -11,3 +11,4 @@ class Message:
     content: Mapped[str] = mapped_column(nullable=False)
     created_at: Mapped[datetime] = mapped_column(init= False, nullable=False, server_default=func.now()
                                                  )
+    

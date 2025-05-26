@@ -1,12 +1,20 @@
 from sqlalchemy import select
 
 from api_mensagens.models.message import Message
-from api_mensagens.schemas.message import MessageCreate, PublicMessage
+from api_mensagens.schemas.message import MessageCreate
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
+from http import HTTPStatus
+
 
 
 def create_message(db: Session, message: MessageCreate):
+    if not message.content:
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail='O campo conteúdo não pode ser vazio'
+        )
+
     db_message = Message(content=message.content)
     db.add(db_message)
     db.commit()
