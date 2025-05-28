@@ -3,7 +3,6 @@ from api_mensagens.services import message_service
 from api_mensagens.db.session import get_session
 from sqlalchemy.orm import Session
 from api_mensagens.schemas.message import PublicMessage, ListMessages, MessageCreate
-from typing import List
 from http import HTTPStatus
 
 router = APIRouter()
