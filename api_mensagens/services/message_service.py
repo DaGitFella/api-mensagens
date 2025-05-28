@@ -3,8 +3,6 @@ from sqlalchemy import select
 from api_mensagens.models.message import Message
 from api_mensagens.schemas.message import MessageCreate
 from sqlalchemy.orm import Session
-from fastapi import HTTPException
-from http import HTTPStatus
 
 from api_mensagens.services import error_handler_service
 
