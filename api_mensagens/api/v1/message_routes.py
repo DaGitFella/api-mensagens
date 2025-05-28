@@ -9,11 +9,11 @@ from http import HTTPStatus
 router = APIRouter()
 
 
-@router.post('/', status_code=HTTPStatus.CREATED, response_model=PublicMessage)
+@router.post('', status_code=HTTPStatus.CREATED, response_model=PublicMessage)
 def create_message(message: MessageCreate, db: Session = Depends(get_session)):
     return message_service.create_message(db, message)
 
-@router.get('/', response_model=ListMessages)
+@router.get('', response_model=ListMessages)
 def get_messages(db: Session = Depends(get_session)):
     messages =message_service.get_all_messages(db)
     return {'messages': messages}
