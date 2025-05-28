@@ -5,7 +5,7 @@ class MessageCreate(BaseModel):
     content: str = Field(min_length=1,
                          max_length=146,
                          description='The content of the message.',
-                         examples=["Baesse heróico"])
+                         examples=["Baesse heróico", "Vincente não me deu 100 :/"])
 
     @field_validator('content')
     @classmethod

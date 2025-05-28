@@ -4,6 +4,7 @@ from api_mensagens.db.session import get_session
 from sqlalchemy.orm import Session
 from api_mensagens.schemas.message import PublicMessage, ListMessages, MessageCreate
 from http import HTTPStatus
+from api_mensagens.core.exceptions import get_or_404
 
 router = APIRouter()
 
@@ -13,8 +14,8 @@ def create_message(message: MessageCreate, db: Session = Depends(get_session)):
     return message_service.create_message(db, message)
 
 @router.get('', response_model=ListMessages)
-def get_messages(db: Session = Depends(get_session)):
-    messages =message_service.get_all_messages(db)
+def get_messages(skip:int = 0, limit:int = 100, db: Session = Depends(get_session)):
+    messages = message_service.get_all_messages(db, limit, skip)
     return {'messages': messages}
 
 @router.get('/{message_id}', response_model=PublicMessage)
