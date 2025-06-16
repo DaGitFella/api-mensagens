@@ -1,6 +1,5 @@
 from datetime import datetime
-
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
 class UserPublic(BaseModel):
@@ -13,4 +12,8 @@ class UserPublic(BaseModel):
 class UserCreate(BaseModel):
     username: str
     email: EmailStr
-    password: str
+    password: str = Field(..., min_length=8)
+
+    @field_validator("password")
+    def strip_whitespace(cls, value: str) -> str:
+        return value.strip()

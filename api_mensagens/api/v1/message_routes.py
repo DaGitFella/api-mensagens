@@ -8,6 +8,7 @@ from api_mensagens.core.security import session
 
 router = APIRouter()
 
+
 @router.post("", status_code=HTTPStatus.CREATED, response_model=PublicMessage)
 def create_message(message: MessageCreate, db: session):
     return message_service.create_message(db, message)
