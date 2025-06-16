@@ -7,10 +7,9 @@ from alembic import context
 
 from api_mensagens.core.config import Settings
 from api_mensagens.db.base import table_registry
-from api_mensagens.models import message
 
 config = context.config
-config.set_main_option('sqlalchemy.url', Settings().DATABASE_URL)
+config.set_main_option("sqlalchemy.url", Settings().DATABASE_URL)
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
@@ -62,9 +61,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

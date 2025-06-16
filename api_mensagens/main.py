@@ -5,6 +5,7 @@ app = FastAPI()
 app.title = "APIMensagens"
 app.include_router(message_routes.router, prefix="/messages", tags=["messages"])
 
+
 @app.get("/")
 def index():
     return {"message": "Hello, World!"}
