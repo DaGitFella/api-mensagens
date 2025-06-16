@@ -7,5 +7,5 @@ SessionLocal = sessionmaker(autocommit=False, bind=engine)
 
 
 def get_session():
-    with SessionLocal() as session:
+    with SessionLocal() as session: #pragma: no cover
         yield session

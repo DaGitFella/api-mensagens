@@ -6,8 +6,8 @@ from api_mensagens.db.session import get_session
 from sqlalchemy.orm import Session
 from api_mensagens.main import app
 from api_mensagens.models.user import User
-from api_mensagens.core.security import get_password_hash
-
+from api_mensagens.models.message import Message
+from api_mensagens.core.security import get_password_hash, get_current_user
 
 @pytest.fixture
 def client(session):
@@ -50,6 +50,19 @@ def user(session):
 
     user.clean_password = password
 
+    return user
+
+
+@pytest.fixture
+def message(session):
+    message = Message(content="Baesse")
+
+    session.add(message)
+    session.commit()
+    session.refresh(message)
+
+    return message
+
 
 @pytest.fixture
 def token(client, user):
@@ -59,3 +72,10 @@ def token(client, user):
     )
 
     return response.json()["access_token"]
+
+@pytest.fixture
+def current_user(session, token):
+
+    user = get_current_user(session, token)
+
+    return user

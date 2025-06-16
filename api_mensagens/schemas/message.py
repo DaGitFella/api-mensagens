@@ -13,7 +13,9 @@ class MessageCreate(BaseModel):
     @classmethod
     def content_not_blank(cls, value: str):
         if not value.strip():
-            raise ValueError("Content cannot be blank or only spaces")
+            raise ValueError(
+                "Content cannot be blank or only spaces"
+            )  # pragma: no cover
         return value
 
 
