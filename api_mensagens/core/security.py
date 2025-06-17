@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from api_mensagens.db.session import get_session
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jwt import DecodeError, encode
 from pwdlib import PasswordHash
 from sqlalchemy import select
@@ -17,6 +17,7 @@ from api_mensagens.core.exceptions import credentials_exception
 pwd_context = PasswordHash.recommended()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 Session = Annotated[Session, Depends(get_session)]
+OAuth2Form = Annotated[OAuth2PasswordRequestForm, Depends()]
 
 
 def get_current_user(session: Session, token: str = Depends(oauth2_scheme)):

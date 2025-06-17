@@ -1,6 +1,6 @@
 from jwt import decode
 
-from api_mensagens.core.security import create_access_token, settings, get_current_user
+from api_mensagens.core.security import create_access_token, settings
 
 
 def test_jwt():
