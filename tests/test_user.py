@@ -59,7 +59,7 @@ def test_update_user_must_return_409(client, token, user_2):
     response = client.put(
         "/users/me",
         headers=headers,
-        json={"username": "lucas", "email": "lula@gmail.com"},
+        json={"username": "lucas", "email": user_2.email},
     )
 
     assert response.status_code == HTTPStatus.CONFLICT
