@@ -53,6 +53,20 @@ def user(session):
 
     return user
 
+@pytest.fixture
+def user_2(session):
+    password = "lucas"
+    user = User(
+        username="lucas",
+        email="lucas@gmail.com",
+        password=get_password_hash(password),
+    )
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+
+    user.clean_password = password
+
 
 @pytest.fixture
 def message(session):
