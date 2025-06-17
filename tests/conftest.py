@@ -53,6 +53,7 @@ def user(session):
 
     return user
 
+
 @pytest.fixture
 def user_2(session):
     password = "lucas"

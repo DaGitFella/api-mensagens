@@ -1,13 +1,18 @@
-rom http import HTTPStatus
 from sqlite3 import IntegrityError
-
 
 from sqlalchemy import select
 
 from api_mensagens.models.user import User
-from api_mensagens.schemas.user import UserPublic, UserCreate, UserUpdate
+from api_mensagens.schemas.user import UserCreate, UserUpdate
 from api_mensagens.core.security import Session, get_password_hash, CurrentUser
 from api_mensagens.core.exceptions import conflict_exception, login_exception
+
+
+def get_all_users_service(session: Session):
+    users = session.scalars(select(User)).all()
+
+    return users
+
 
 def create_user_service(user: UserCreate, session: Session):
     db_user = session.scalar(select(User).where(User.email == user.email))
@@ -24,6 +29,7 @@ def create_user_service(user: UserCreate, session: Session):
 
     return db_user
 
+
 def get_me_service(session: Session, current_user: CurrentUser):
     db_user = session.scalar(select(User).where(User.email == current_user.email))
 
@@ -31,6 +37,7 @@ def get_me_service(session: Session, current_user: CurrentUser):
         raise login_exception
 
     return db_user
+
 
 def update_me_service(
     user: UserUpdate,
@@ -47,7 +54,8 @@ def update_me_service(
 
     except IntegrityError:
         raise conflict_exception
-    
+
+
 def delete_me_service(
     session: Session,
     current_user: CurrentUser,

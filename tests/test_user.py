@@ -6,6 +6,7 @@ def test_get_all_users(client):
 
     assert response.status_code == HTTPStatus.OK
 
+
 def test_create_user_must_return_201(client):
     response = client.post(
         "/users",
@@ -52,12 +53,13 @@ def test_update_current_user_must_return_200(client, token):
 
     assert response.status_code == HTTPStatus.OK
 
+
 def test_update_user_must_return_409(client, token, user_2):
     headers = {"Authorization": f"Bearer {token}"}
-    response = client.put('/users/me', headers=headers,
-                          json={
-                              "username": "lucas",
-                              "email": "lula@gmail.com"
-                          })
+    response = client.put(
+        "/users/me",
+        headers=headers,
+        json={"username": "lucas", "email": "lula@gmail.com"},
+    )
 
     assert response.status_code == HTTPStatus.CONFLICT
