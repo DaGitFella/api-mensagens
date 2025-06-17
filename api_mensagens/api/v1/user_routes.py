@@ -8,7 +8,6 @@ from api_mensagens.schemas.user import UserPublic, UserCreate, UserUpdate
 from api_mensagens.core.security import Session, CurrentUser
 from api_mensagens.services.user_service import (
     create_user_service,
-    get_me_service,
     update_me_service,
     delete_me_service,
     get_all_users_service,
@@ -28,8 +27,8 @@ def create_user(user: UserCreate, session: Session):
 
 
 @router.get("/me", response_model=UserPublic)
-def get_me(session: Session, current_user: CurrentUser):
-    return get_me_service(session, current_user)
+def get_me(current_user: CurrentUser):
+    return current_user
 
 
 @router.put("/me", response_model=UserPublic)

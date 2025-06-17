@@ -70,6 +70,7 @@ def user_2(session):
 
     return user_2
 
+
 @pytest.fixture
 def message(session):
     message = Message(content="Baesse")
@@ -89,3 +90,8 @@ def token(client, user):
     )
 
     return response.json()["access_token"]
+
+
+@pytest.fixture
+def headers(token):
+    return {"Authorization": f"Bearer {token}"}

@@ -19,6 +19,14 @@ def test_create_user_must_return_201(client):
 
     assert response.status_code == HTTPStatus.CREATED
 
+def test_create_user_with_invalid_password(client):
+    response = client.post('/users', json={
+        "email": "pedro@pedro.com",
+        "username": "ruan",
+        "password": "pedro",
+    })
+
+    assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 def test_create_user_must_return_409(client, user):
     response = client.post(
@@ -33,15 +41,13 @@ def test_create_user_must_return_409(client, user):
     assert response.status_code == HTTPStatus.CONFLICT
 
 
-def test_get_current_user_must_return_200(client, token):
-    headers = {"Authorization": f"Bearer {token}"}
+def test_get_current_user_must_return_200(client, token, headers):
     response = client.get("/users/me", headers=headers)
 
     assert response.status_code == HTTPStatus.OK
 
 
-def test_update_current_user_must_return_200(client, token):
-    headers = {"Authorization": f"Bearer {token}"}
+def test_update_current_user_must_return_200(client, token, headers):
     response = client.put(
         "/users/me",
         headers=headers,
@@ -54,8 +60,7 @@ def test_update_current_user_must_return_200(client, token):
     assert response.status_code == HTTPStatus.OK
 
 
-def test_update_user_must_return_409(client, token, user_2):
-    headers = {"Authorization": f"Bearer {token}"}
+def test_update_user_must_return_409(client, token, user_2, headers):
     response = client.put(
         "/users/me",
         headers=headers,
@@ -63,3 +68,9 @@ def test_update_user_must_return_409(client, token, user_2):
     )
 
     assert response.status_code == HTTPStatus.CONFLICT
+
+
+def test_delete_user_must_return_200(client, token, headers):
+    response = client.delete("/users/me", headers=headers)
+
+    assert response.status_code == HTTPStatus.OK

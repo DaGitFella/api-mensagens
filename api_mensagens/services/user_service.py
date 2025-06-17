@@ -5,7 +5,7 @@ from sqlalchemy import select
 from api_mensagens.models.user import User
 from api_mensagens.schemas.user import UserCreate, UserUpdate
 from api_mensagens.core.security import Session, get_password_hash, CurrentUser
-from api_mensagens.core.exceptions import conflict_exception, login_exception
+from api_mensagens.core.exceptions import conflict_exception
 
 
 def get_all_users_service(session: Session):
@@ -26,15 +26,6 @@ def create_user_service(user: UserCreate, session: Session):
     session.add(db_user)
     session.commit()
     session.refresh(db_user)
-
-    return db_user
-
-
-def get_me_service(session: Session, current_user: CurrentUser):
-    db_user = session.scalar(select(User).where(User.email == current_user.email))
-
-    if not db_user:
-        raise login_exception
 
     return db_user
 
