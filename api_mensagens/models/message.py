@@ -3,7 +3,11 @@ from datetime import datetime
 from sqlalchemy import func, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from api_mensagens.db.base import table_registry
-from .user import User
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .user import User
+
 
 @table_registry.mapped_as_dataclass
 class Message:
@@ -13,5 +17,5 @@ class Message:
     created_at: Mapped[datetime] = mapped_column(
         init=False, nullable=False, server_default=func.now()
     )
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable = False)
-    user: Mapped[User] = relationship(back_populates = "messages")
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    user: Mapped["User"] = relationship("User", back_populates="messages")

@@ -7,7 +7,7 @@ from alembic import context
 
 from api_mensagens.core.config import settings
 from api_mensagens.db.base import table_registry
-
+from api_mensagens.models import user, message
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)

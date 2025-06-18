@@ -4,7 +4,7 @@ from api_mensagens.core.security import (
     create_access_token,
     Session,
 )
-from api_mensagens.core.exceptions import login_exception, login_exception_password
+from api_mensagens.core.exceptions import credentials_exception
 from api_mensagens.models.user import User
 from sqlalchemy import select
 
@@ -13,10 +13,10 @@ def login_for_access_token_service(form_data: OAuth2Form, session: Session):
     user = session.scalar(select(User).where(User.email == form_data.username))
 
     if not user:
-        raise login_exception
+        raise credentials_exception(detail="Incorrect email or password")
 
     if not verify_password(form_data.password, user.password):
-        raise login_exception_password
+        raise credentials_exception(detail="Incorrect email or password")
 
     access_token = create_access_token(data={"sub": user.email})
 

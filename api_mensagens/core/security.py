@@ -28,15 +28,15 @@ def get_current_user(session: Session, token: str = Depends(oauth2_scheme)):
         subject_email = payload.get("sub")
 
         if not subject_email:
-            raise credentials_exception
+            raise credentials_exception(detail="Invalid email or password")
 
     except DecodeError:
-        raise credentials_exception
+        raise credentials_exception()
 
     user = session.scalar(select(User).where(User.email == subject_email))
 
     if not user:
-        raise credentials_exception
+        raise credentials_exception(detail="Invalid email or password")
 
     return user
 

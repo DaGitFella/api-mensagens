@@ -21,7 +21,7 @@ def create_user_service(user: UserCreate, session: Session):
 
     hashed_password = get_password_hash(user.password)
 
-    db_user = User(username=user.username, password=hashed_password, email=user.email)
+    db_user = User(username=user.username, password=hashed_password, email=user.email, messages=[])
 
     session.add(db_user)
     session.commit()

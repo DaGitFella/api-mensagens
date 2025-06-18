@@ -12,27 +12,27 @@ def not_found_exception(resource: str = None) -> HTTPException:
     raise exception
 
 
-def get_or_404(db: Session, object, object_id: int):
-    obj = db.get(object, object_id)
+def get_or_404(db: Session, resource: any, object_id: int, resource_name: str = None):
+    obj = db.get(resource, object_id)
     if not obj:
-        not_found_exception(object_id)
+        not_found_exception(f'{resource_name} {object_id}')
 
     return obj
 
 
-credentials_exception = HTTPException(
-    status_code=HTTPStatus.UNAUTHORIZED,
-    detail="Could not validate credentials.",
-    headers={"WWW-Authenticate": "Bearer"},
-)
+def credentials_exception(
+    headers: bool = False, detail: str = "Could not validate credentials"
+):
+    if headers:
+        token_headers = {"WWW-Authenticate": "Bearer"}
+        return HTTPException(
+            status_code=HTTPStatus.UNAUTHORIZED,
+            detail=detail,
+            headers=token_headers,
+        )
 
-login_exception = HTTPException(
-    status_code=HTTPStatus.UNAUTHORIZED, detail="Invalid username or Email"
-)
+    return HTTPException(status_code=HTTPStatus.UNAUTHORIZED, detail=detail)
 
-login_exception_password = HTTPException(
-    status_code=HTTPStatus.UNAUTHORIZED, detail="Invalid password or Email"
-)
 
 conflict_exception = HTTPException(
     status_code=HTTPStatus.CONFLICT, detail="Email already exists."
