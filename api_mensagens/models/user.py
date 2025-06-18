@@ -9,7 +9,7 @@ from typing import List
 
 @table_registry.mapped_as_dataclass
 class User:
-    __tablename__ = "user"
+    __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True, init=False)
     username: Mapped[str] = mapped_column(nullable=False)
     email: Mapped[str] = mapped_column(nullable=False, unique=True)
