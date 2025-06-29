@@ -19,7 +19,6 @@ def create_message(db: Session, message: MessageCreate, current_user: CurrentUse
 def get_all_messages(db: Session, filter_page: FilterPage, current_user: CurrentUser):
     return db.scalars(
         select(Message)
-        .where(Message.user_id == current_user.id)
         .offset(filter_page.offset)
         .limit(filter_page.limit)
     ).all()
