@@ -11,15 +11,12 @@ from api_mensagens.schemas.comment import CommentCreate, CommentUpdate
 from api_mensagens.core.security import Session, CurrentUser
 
 
-from api_mensagens.models.user import User
-
 def create_comment_service(
     db: Session,
     message_id: int,
     comment_data: CommentCreate,
     current_user: CurrentUser,
 ):
-
     message = db.scalar(select(Message).where(Message.id == message_id))
     if not message:
         raise not_found_exception(detail="Message not found.")
@@ -34,10 +31,6 @@ def create_comment_service(
     db.commit()
     db.refresh(comment)
     return comment
-
-
-
-
 
 
 def list_comments_by_message_service(db: Session, message_id: int):
@@ -59,7 +52,9 @@ def update_comment_service(
     comment = get_or_404(db, Comment, comment_id, "comment")
 
     if comment.author_id != current_user.id:
-        raise credentials_exception(detail="You can only update your own comments.")
+        raise credentials_exception(
+            detail="You can only update your own comments."
+        )
 
     comment.content = comment_data.content
     db.commit()
@@ -75,7 +70,9 @@ def delete_comment_service(
     comment = get_or_404(db, Comment, comment_id, "comment")
 
     if comment.author_id != current_user.id:
-        raise credentials_exception(detail="You can only delete your own comments.")
+        raise credentials_exception(
+            detail="You can only delete your own comments."
+        )
 
     db.delete(comment)
     db.commit()

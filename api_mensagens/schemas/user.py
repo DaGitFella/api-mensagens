@@ -14,7 +14,7 @@ class UserPublic(BaseModel):
 class UserCreate(BaseModel):
     username: str
     email: EmailStr
-    password: str = Field(..., min_length=8)
+    password: str = Field(..., min_length=8, examples=['Ast4!._666'])
 
     @field_validator("password", mode="plain")
     @classmethod
@@ -27,7 +27,9 @@ class UserCreate(BaseModel):
         }
 
         missing = [
-            name for name, pattern in patterns.items() if not re.search(pattern, value)
+            name
+            for name, pattern in patterns.items()
+            if not re.search(pattern, value)
         ]
 
         if missing:

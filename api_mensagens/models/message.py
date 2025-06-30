@@ -18,7 +18,11 @@ class Message:
     created_at: Mapped[datetime] = mapped_column(
         init=False, nullable=False, server_default=func.now()
     )
-    
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id"), nullable=False
+    )
     user: Mapped["User"] = relationship("User", back_populates="messages")
-    comments: Mapped[List["Comment"]] = relationship("Comment", back_populates="message")
+    comments: Mapped[List["Comment"]] = relationship(
+        "Comment", back_populates="message"
+    )

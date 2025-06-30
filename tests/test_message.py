@@ -16,7 +16,9 @@ def test_create_message_with_invalid_content(client, token, headers):
     assert response.status_code == HTTPStatus.UNPROCESSABLE_CONTENT
 
 
-def test_get_one_message_must_return_200_and_message(client, message, token, headers):
+def test_get_one_message_must_return_200_and_message(
+    client, message, token, headers
+):
     response = client.get(f"/messages/{message.id}", headers=headers)
 
     assert response.status_code == HTTPStatus.OK
@@ -26,7 +28,9 @@ def test_get_one_message_must_return_200_and_message(client, message, token, hea
     }
 
 
-def test_get_messages_must_return_200_and_message(client, message, token, headers):
+def test_get_messages_must_return_200_and_message(
+    client, message, token, headers
+):
     response = client.get("/messages", headers=headers)
 
     assert response.status_code == HTTPStatus.OK
@@ -45,9 +49,13 @@ def test_get_message_must_return_404(client, token, headers):
     assert response.status_code == HTTPStatus.NOT_FOUND
 
 
-def test_update_message_must_return_200_and_message(client, message, token, headers):
+def test_update_message_must_return_200_and_message(
+    client, message, token, headers
+):
     response = client.put(
-        f"/messages/{message.id}", headers=headers, json={"content": "Baesse eu te odeio"}
+        f"/messages/{message.id}",
+        headers=headers,
+        json={"content": "Baesse eu te odeio"},
     )
 
     assert response.status_code == HTTPStatus.OK
@@ -57,7 +65,9 @@ def test_update_message_must_return_200_and_message(client, message, token, head
     }
 
 
-def test_delete_message_must_return_200_and_detail(client, message, token, headers):
+def test_delete_message_must_return_200_and_detail(
+    client, message, token, headers
+):
     response = client.delete(f"/messages/{message.id}", headers=headers)
 
     assert response.status_code == HTTPStatus.OK

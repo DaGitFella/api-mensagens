@@ -19,45 +19,45 @@ router = APIRouter()
 
 
 @router.post(
-    "/{message_id}",
+    "",
     status_code=HTTPStatus.CREATED,
     response_model=PublicComment,
 )
 def create_comment(
-    message_id: int = Path(..., description="ID of the message to comment on"),
-    comment: CommentCreate = ...,
-    db: Session = ...,              # será injetado pelo FastAPI
-    current_user: CurrentUser = ...,
+        comment: CommentCreate,
+        db: Session,
+        current_user: CurrentUser,
+        message_id: int
 ):
     return create_comment_service(db, message_id, comment, current_user)
 
 
 @router.get(
-    "/{message_id}",
+    "",
     response_model=ListComments,
 )
 def list_comments_by_message(
-    message_id: int = Path(..., description="ID of the message"),
-    db: Session = ...,
+        message_id: int,
+        db: Session,
 ):
     comments = list_comments_by_message_service(db, message_id)
     return {"comments": comments}
 
 
-@router.delete("/{comment_id}")
+@router.delete("")
 def delete_comment(
-    comment_id: int = Path(..., description="ID of the comment"),
-    db: Session = ...,
-    current_user: CurrentUser = ...,
+        comment_id: int,
+        db: Session,
+        current_user: CurrentUser,
 ):
     return delete_comment_service(db, comment_id, current_user)
 
 
-@router.put("/{comment_id}", response_model=PublicComment)
+@router.put("", response_model=PublicComment)
 def update_comment(
-    comment_id: int = Path(..., description="ID of the comment to update"),
-    updated: CommentUpdate = ...,
-    db: Session = ...,
-    current_user: CurrentUser = ...,
+        comment_id: int,
+        updated: CommentUpdate,
+        db: Session,
+        current_user: CurrentUser,
 ):
     return update_comment_service(db, comment_id, updated, current_user)

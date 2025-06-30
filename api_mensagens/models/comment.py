@@ -17,8 +17,16 @@ class Comment:
     created_at: Mapped[datetime] = mapped_column(
         init=False, nullable=False, server_default=func.now()
     )
-    
-    author_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
-    author: Mapped[Optional["User"]] = relationship("User", back_populates="comments", init=False)
-    message_id: Mapped[int] = mapped_column(ForeignKey("messages.id"), nullable=False)
-    message: Mapped[Optional["Message"]] = relationship("Message", back_populates="comments", init=False)
+
+    author_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id"), nullable=False
+    )
+    author: Mapped[Optional["User"]] = relationship(
+        "User", back_populates="comments", init=False
+    )
+    message_id: Mapped[int] = mapped_column(
+        ForeignKey("messages.id"), nullable=False
+    )
+    message: Mapped[Optional["Message"]] = relationship(
+        "Message", back_populates="comments", init=False
+    )

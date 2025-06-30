@@ -2,8 +2,11 @@ from fastapi import HTTPException
 from http import HTTPStatus
 from sqlalchemy.orm import Session
 
+
 # === 404 Not Found ===
-def not_found_exception(resource: str = None, detail: str = None) -> HTTPException:
+def not_found_exception(
+    resource: str = None, detail: str = None
+) -> HTTPException:
     msg = detail or f"{resource} not found"
     return HTTPException(
         status_code=HTTPStatus.NOT_FOUND,
@@ -13,13 +16,15 @@ def not_found_exception(resource: str = None, detail: str = None) -> HTTPExcepti
     raise not_found_exception(detail="Essa mensagem não existe, burro.")
 
 
-
-def get_or_404(db: Session, resource: any, object_id: int, resource_name: str = None):
+def get_or_404(
+    db: Session, resource: any, object_id: int, resource_name: str = None
+):
     obj = db.get(resource, object_id)
     if not obj:
-        not_found_exception(f'{resource_name} {object_id}')
+        not_found_exception(f"{resource_name} {object_id}")
 
     return obj
+
 
 # === 401 Unauthorized ===
 def credentials_exception(

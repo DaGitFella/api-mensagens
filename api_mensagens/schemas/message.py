@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 
 
 class MessageCreate(BaseModel):
@@ -22,6 +22,7 @@ class MessageCreate(BaseModel):
 class PublicMessage(BaseModel):
     id: int
     content: str
+
 
 
 class ListMessages(BaseModel):

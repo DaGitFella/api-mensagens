@@ -45,6 +45,7 @@ def user(session):
         email="test@test.com",
         password=get_password_hash(password),
         messages=[],
+        comments=[],
     )
     session.add(user)
     session.commit()
@@ -62,7 +63,8 @@ def user_2(session):
         username="lucas",
         email="lucas@gmail.com",
         password=get_password_hash(password),
-        messages=[]
+        messages=[],
+        comments=[],
     )
     session.add(user_2)
     session.commit()
@@ -75,13 +77,17 @@ def user_2(session):
 
 @pytest.fixture
 def message(session, user):
-    message = Message(content="Baesse", user_id=user.id, user=user)
+    message = Message(content="Baesse", user_id=user.id, user=user, comments=[])
+    session.add(message)
+    session.commit()
+    session.refresh(message)
 
     session.add(message)
     session.commit()
     session.refresh(message)
 
     return message
+
 
 @pytest.fixture
 def token(client, user):

@@ -7,9 +7,11 @@ class CommentCreate(BaseModel):
         min_length=1,
         max_length=146,
         description="The content of the comment.",
-        examples=["Você está usando 'Menina do Job' na sua dungeon?", "Posso usar essa música na minha dungeon?"],
+        examples=[
+            "Você está usando 'Menina do Job' na sua dungeon?",
+            "Posso usar essa música na minha dungeon?",
+        ],
     )
-    message_id: int = Field(..., description="ID of the message being commented.")
 
     @field_validator("content")
     @classmethod
