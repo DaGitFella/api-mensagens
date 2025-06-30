@@ -14,7 +14,7 @@ class UserPublic(BaseModel):
 class UserCreate(BaseModel):
     username: str
     email: EmailStr
-    password: str = Field(..., min_length=8, examples=['Ast4!._666'])
+    password: str = Field(..., min_length=8, examples=["Ast4!._666"])
 
     @field_validator("password", mode="plain")
     @classmethod

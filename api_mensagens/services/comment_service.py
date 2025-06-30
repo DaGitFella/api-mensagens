@@ -74,6 +74,11 @@ def delete_comment_service(
             detail="You can only delete your own comments."
         )
 
+    if not comment:
+        raise not_found_exception(
+            detail="Comment not found."
+        )
+
     db.delete(comment)
     db.commit()
     return {"detail": f"Comment {comment_id} deleted."}

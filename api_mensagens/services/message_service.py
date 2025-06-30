@@ -1,6 +1,10 @@
 from sqlalchemy import select
 
-from api_mensagens.core.exceptions import get_or_404, credentials_exception, not_found_exception
+from api_mensagens.core.exceptions import (
+    get_or_404,
+    credentials_exception,
+    not_found_exception,
+)
 from api_mensagens.models.message import Message
 from api_mensagens.schemas.message import MessageCreate
 from api_mensagens.schemas.utils import FilterPage
@@ -14,7 +18,7 @@ def create_message(
         content=message.content,
         user_id=current_user.id,
         user=current_user,
-        comments=[]
+        comments=[],
     )
     db.add(db_message)
     db.commit()
@@ -22,23 +26,23 @@ def create_message(
     return db_message
 
 
-def get_all_messages(
-    db: Session, filter_page: FilterPage
-):
+def get_all_messages(db: Session, filter_page: FilterPage):
     return db.scalars(
         select(Message).offset(filter_page.offset).limit(filter_page.limit)
     ).all()
 
 
 def get_my_messages(db: Session, current_user: CurrentUser):
-    messages = db.scalars(select(Message).where(Message.user_id == current_user.id)).all()
+    messages = db.scalars(
+        select(Message).where(Message.user_id == current_user.id)
+    ).all()
 
     if not messages:
         raise not_found_exception(
-            detail='User not found',
+            detail="User not found",
         )
 
-    return {'messages': messages}
+    return {"messages": messages}
 
 
 def delete_message(db: Session, message_id: int, current_user: CurrentUser):

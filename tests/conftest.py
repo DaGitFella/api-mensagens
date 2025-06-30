@@ -77,7 +77,9 @@ def user_2(session):
 
 @pytest.fixture
 def message(session, user):
-    message = Message(content="Baesse", user_id=user.id, user=user, comments=[])
+    message = Message(
+        content="Baesse", user_id=user.id, user=user, comments=[]
+    )
     session.add(message)
     session.commit()
     session.refresh(message)
