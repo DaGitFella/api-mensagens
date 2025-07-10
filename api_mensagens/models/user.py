@@ -16,9 +16,8 @@ class User:
     username: Mapped[str] = mapped_column(nullable=False)
     email: Mapped[str] = mapped_column(nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
-    created_at: Mapped[datetime] = mapped_column(
-        init=False, server_default=func.now()
-    )
+    role: Mapped[str] = mapped_column(nullable=False)
+    created_at: Mapped[datetime] = mapped_column(init=False, server_default=func.now())
 
     messages: Mapped[List["Message"]] = relationship(
         "Message", back_populates="user"

@@ -5,7 +5,7 @@ from fastapi import APIRouter
 
 
 from api_mensagens.schemas.user import UserPublic, UserCreate, UserUpdate
-from api_mensagens.core.security import Session, CurrentUser
+from api_mensagens.core.security import Session, CurrentUser, adminRequired
 from api_mensagens.services.user_service import (
     create_user_service,
     update_me_service,
@@ -17,7 +17,7 @@ router = APIRouter()
 
 
 @router.get("", response_model=List[UserPublic])
-def get_all_users(session: Session):
+def get_all_users(session: Session, admin: adminRequired):
     return get_all_users_service(session)
 
 

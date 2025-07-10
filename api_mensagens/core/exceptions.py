@@ -23,7 +23,6 @@ def get_or_404(
     return obj
 
 
-# === 401 Unauthorized ===
 def credentials_exception(
         headers: bool = False, detail: str = "Could not validate credentials"
 ):
@@ -42,3 +41,9 @@ conflict_exception = HTTPException(
     status_code=HTTPStatus.CONFLICT,
     detail="Email already exists."
 )
+
+def forbidden_exception(detail: str = 'Forbidden') -> HTTPException:
+    return HTTPException(
+        status_code=HTTPStatus.FORBIDDEN,
+        detail=detail,
+    )

@@ -7,6 +7,7 @@ class UserPublic(BaseModel):
     id: int
     username: str
     email: EmailStr
+    role: str
     created_at: datetime
 
 

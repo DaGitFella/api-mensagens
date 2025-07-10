@@ -8,7 +8,7 @@ from api_mensagens.core.exceptions import (
 from api_mensagens.models.message import Message
 from api_mensagens.schemas.message import MessageCreate
 from api_mensagens.schemas.utils import FilterPage
-from api_mensagens.core.security import Session, CurrentUser
+from api_mensagens.core.security import Session, CurrentUser, adminRequired
 
 
 def create_message(
@@ -49,10 +49,12 @@ def delete_message(db: Session, message_id: int, current_user: CurrentUser):
     message = get_or_404(
         db, Message, object_id=message_id, resource_name="message"
     )
-    if message.user_id != current_user.id:
+
+    if current_user.role != 'admin' and message.user_id != current_user.id:
         raise credentials_exception(
             detail="You don't have permission to access this message"
         )
+
     db.delete(message)
     db.commit()
     return {"detail": f"message {message_id} was deleted"}
@@ -67,10 +69,12 @@ def update_message(
     db_message = get_or_404(
         db, Message, object_id=message_id, resource_name="message"
     )
-    if db_message.user_id != current_user.id:
+
+    if current_user.role != "admin" and db_message.user_id != current_user.id:
         raise credentials_exception(
             detail="You don't have permission to access this message"
         )
+
     db_message.content = message.content
     db.commit()
     db.refresh(db_message)

@@ -25,6 +25,7 @@ def create_user_service(user: UserCreate, session: Session):
         username=user.username,
         password=hashed_password,
         email=user.email,
+        role='user',
         messages=[],
         comments=[],
     )
