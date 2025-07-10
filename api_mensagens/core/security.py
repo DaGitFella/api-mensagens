@@ -7,7 +7,7 @@ from api_mensagens.db.session import get_session
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from jwt import DecodeError, encode
+from jwt import DecodeError, encode, PyJWTError
 from pwdlib import PasswordHash
 from sqlalchemy import select
 from api_mensagens.models.user import User
@@ -20,6 +20,16 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 Session = Annotated[Session, Depends(get_session)]
 OAuth2Form = Annotated[OAuth2PasswordRequestForm, Depends()]
 
+def verify_token(token: str, token_type: str):
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        if payload.get("type") != token_type:
+            raise PyJWTError()
+        return payload
+    except PyJWTError:
+        raise forbidden_exception(
+            detail='token inválido ou inspirado'
+        )
 
 def get_current_user(session: Session, token: str = Depends(oauth2_scheme)):
     try:
@@ -74,3 +84,18 @@ def create_access_token(data: dict):
     )
 
     return encoded_jwt
+
+def create_refresh_token(data: dict):
+    to_encode = data.copy()
+    expire = datetime.now(tz=ZoneInfo("UTC")) + timedelta(
+        days=settings.ACCESS_TOKEN_EXPIRE_DAYS
+    )
+    to_encode.update({"exp": expire})
+    encoded_jwt = encode(
+        to_encode,
+        settings.SECRET_KEY,
+        algorithm=settings.ALGORITHM,
+    )
+
+    return encoded_jwt
+

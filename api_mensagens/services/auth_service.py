@@ -1,10 +1,12 @@
+from fastapi import Body
 from api_mensagens.core.security import (
     OAuth2Form,
     verify_password,
     create_access_token,
     Session,
+    verify_token, create_refresh_token,
 )
-from api_mensagens.core.exceptions import credentials_exception
+from api_mensagens.core.exceptions import credentials_exception, forbidden_exception
 from api_mensagens.models.user import User
 from sqlalchemy import select
 
@@ -21,3 +23,18 @@ def login_for_access_token_service(form_data: OAuth2Form, session: Session):
     access_token = create_access_token(data={"sub": user.email, "role": user.role})
 
     return {"access_token": access_token, "token_type": "bearer"}
+
+def refresh_token_service(refresh_token: str = Body(..., embed=True)):
+    payload = verify_token(refresh_token, token_type="refresh")
+    user_mail = payload.get("sub")
+    role = payload.get("role")
+
+    if not user_mail:
+        raise forbidden_exception(detail="Token é inválido")
+
+    new_access_token = create_refresh_token(data={'sub': user_mail, "role": role})
+    return {
+        "access_token": new_access_token,
+        "token_type": "bearer"
+    }
+
