@@ -17,7 +17,7 @@ router = APIRouter()
 
 
 @router.get("", response_model=List[UserPublic])
-def get_all_users(session: Session, admin: adminRequired):
+def get_all_users(session: Session):
     return get_all_users_service(session)
 
 

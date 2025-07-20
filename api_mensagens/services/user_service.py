@@ -1,6 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 
 from sqlalchemy import select
+from sqlalchemy.sql.functions import current_user
 
 from api_mensagens.models.user import User
 from api_mensagens.schemas.user import UserCreate, UserUpdate
@@ -9,9 +10,7 @@ from api_mensagens.core.exceptions import conflict_exception
 
 
 def get_all_users_service(session: Session):
-    users = session.scalars(select(User)).all()
-
-    return users
+    if (current_user.is_staff)
 
 
 def create_user_service(user: UserCreate, session: Session):
