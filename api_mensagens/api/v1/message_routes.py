@@ -8,7 +8,7 @@ from api_mensagens.schemas.message import (
 )
 from http import HTTPStatus
 from api_mensagens.schemas.utils import FilterPage
-from api_mensagens.core.security import Session, CurrentUser, adminRequired
+from api_mensagens.core.security import Session, CurrentUser
 
 router = APIRouter()
 
