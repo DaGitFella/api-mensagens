@@ -10,7 +10,9 @@ from api_mensagens.core.exceptions import conflict_exception
 
 
 def get_all_users_service(session: Session):
-    if (current_user.is_staff)
+    users = session.scalars(select(User)).all()
+
+    return users
 
 
 def create_user_service(user: UserCreate, session: Session):
