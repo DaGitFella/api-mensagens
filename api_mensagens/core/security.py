@@ -54,15 +54,6 @@ def get_current_user(session: Session, token: str = Depends(oauth2_scheme)):
 
 CurrentUser = Annotated[User, Depends(get_current_user)]
 
-def require_role(*roles: list[str]):
-    def role_checker(user = Depends(get_current_user)):
-        if user.role not in roles:
-            raise forbidden_exception(detail="Você não tem permissão para acessar esse recurso")
-        return user
-    return role_checker
-
-adminRequired = Annotated[User, Depends(require_role("admin"))]
-
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 

@@ -8,7 +8,7 @@ from api_mensagens.core.exceptions import (
 from api_mensagens.models.message import Message
 from api_mensagens.schemas.message import MessageCreate
 from api_mensagens.schemas.utils import FilterPage
-from api_mensagens.core.security import Session, CurrentUser, adminRequired
+from api_mensagens.core.security import Session, CurrentUser
 
 
 def create_message(
