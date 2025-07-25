@@ -10,7 +10,7 @@ from api_mensagens.services.user_service import (
     create_user_service,
     update_me_service,
     delete_me_service,
-    get_all_users_service,
+    get_all_users_service, delete_user_service,
 )
 
 router = APIRouter()
@@ -46,3 +46,11 @@ def delete_me(
     current_user: CurrentUser,
 ):
     return delete_me_service(session, current_user)
+
+@router.delete("")
+def delete_user(
+    session: Session,
+    current_user: CurrentUser,
+    user_id: int
+):
+    return delete_user_service(session, current_user, user_id)

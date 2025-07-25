@@ -20,19 +20,19 @@ def login_for_access_token_service(form_data: OAuth2Form, session: Session):
     if not verify_password(form_data.password, user.password):
         raise credentials_exception(detail="Incorrect email or password")
 
-    access_token = create_access_token(data={"sub": user.email, "role": user.role})
+    access_token = create_access_token(data={"sub": user.email, "is_staff": user.is_staff})
 
     return {"access_token": access_token, "token_type": "bearer"}
 
 def refresh_token_service(refresh_token: str = Body(..., embed=True)):
     payload = verify_token(refresh_token, token_type="refresh")
     user_mail = payload.get("sub")
-    role = payload.get("role")
+    is_staff = payload.get("is_staff")
 
     if not user_mail:
         raise forbidden_exception(detail="Token é inválido")
 
-    new_access_token = create_refresh_token(data={'sub': user_mail, "role": role})
+    new_access_token = create_refresh_token(data={'sub': user_mail, "is_staff": is_staff})
     return {
         "access_token": new_access_token,
         "token_type": "bearer"
