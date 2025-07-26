@@ -1,12 +1,15 @@
 from sqlalchemy.exc import IntegrityError
 
 from sqlalchemy import select
-from sqlalchemy.sql.functions import current_user
 
 from api_mensagens.models.user import User
 from api_mensagens.schemas.user import UserCreate, UserUpdate
 from api_mensagens.core.security import Session, get_password_hash, CurrentUser
-from api_mensagens.core.exceptions import conflict_exception, get_or_404, forbidden_exception
+from api_mensagens.core.exceptions import (
+    conflict_exception,
+    get_or_404,
+    forbidden_exception,
+)
 
 
 def get_all_users_service(session: Session):
@@ -63,15 +66,14 @@ def delete_me_service(
 
     return {"message": "Your user has been deleted"}
 
-def delete_user_service(
-        session: Session,
-        current_user: CurrentUser,
-        user_id: int):
 
+def delete_user_service(
+    session: Session, current_user: CurrentUser, user_id: int
+):
     if current_user.is_staff or current_user.id == user_id:
         user = get_or_404(session, User, user_id)
         session.delete(user)
         session.commit()
         return {"message": "User has been deleted"}
 
-    raise forbidden_exception('You are not allowed to perform this action.')
+    raise forbidden_exception("You are not allowed to perform this action.")

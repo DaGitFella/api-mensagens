@@ -12,7 +12,10 @@ from pwdlib import PasswordHash
 from sqlalchemy import select
 from api_mensagens.models.user import User
 from api_mensagens.core.config import settings
-from api_mensagens.core.exceptions import credentials_exception, forbidden_exception
+from api_mensagens.core.exceptions import (
+    credentials_exception,
+    forbidden_exception,
+)
 
 pwd_context = PasswordHash.recommended()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
@@ -20,16 +23,18 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 Session = Annotated[Session, Depends(get_session)]
 OAuth2Form = Annotated[OAuth2PasswordRequestForm, Depends()]
 
+
 def verify_token(token: str, token_type: str):
     try:
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        payload = jwt.decode(
+            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+        )
         if payload.get("type") != token_type:
             raise PyJWTError()
         return payload
     except PyJWTError:
-        raise forbidden_exception(
-            detail='token inválido ou inspirado'
-        )
+        raise forbidden_exception(detail="token inválido ou inspirado")
+
 
 def get_current_user(session: Session, token: str = Depends(oauth2_scheme)):
     try:
@@ -54,6 +59,7 @@ def get_current_user(session: Session, token: str = Depends(oauth2_scheme)):
 
 CurrentUser = Annotated[User, Depends(get_current_user)]
 
+
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
@@ -76,6 +82,7 @@ def create_access_token(data: dict):
 
     return encoded_jwt
 
+
 def create_refresh_token(data: dict):
     to_encode = data.copy()
     expire = datetime.now(tz=ZoneInfo("UTC")) + timedelta(
@@ -89,4 +96,3 @@ def create_refresh_token(data: dict):
     )
 
     return encoded_jwt
-

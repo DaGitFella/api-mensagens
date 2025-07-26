@@ -51,7 +51,7 @@ def update_comment_service(
 ):
     comment = get_or_404(db, Comment, comment_id, "comment")
 
-    if current_user.role != 'admin' and comment.author_id != current_user.id:
+    if not current_user.is_staff and comment.author_id != current_user.id:
         raise credentials_exception(
             detail="You can only update your own comments."
         )
@@ -69,15 +69,13 @@ def delete_comment_service(
 ):
     comment = get_or_404(db, Comment, comment_id, "comment")
 
-    if current_user.role != 'admin' and comment.author_id != current_user.id:
-        raise credentials_exception (
+    if not current_user.is_staff and comment.author_id != current_user.id:
+        raise credentials_exception(
             detail="You can only delete your own comments."
         )
 
     if not comment:
-        raise not_found_exception(
-            detail="Comment not found."
-        )
+        raise not_found_exception(detail="Comment not found.")
 
     db.delete(comment)
     db.commit()
