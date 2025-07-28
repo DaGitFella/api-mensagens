@@ -1,4 +1,4 @@
----
+***
 
 # 📡 API de Mensagens
 
@@ -11,7 +11,7 @@ Este repositório contém a API de mensagens, desenvolvida com Python e gerencia
 * `pipx` (recomendado para instalações locais)
 * [Task](https://taskfile.dev/) para gerenciamento de comandos
 
----
+***
 
 ## 🛠️ Instalação
 
