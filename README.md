@@ -1,25 +1,29 @@
+---
+
 # 📡 API de Mensagens
 
 Este repositório contém a API de mensagens, desenvolvida com Python e gerenciada com [Poetry](https://python-poetry.org/), focando em um ambiente isolado e organizado para dependências.
 
 ## 🚀 Requisitos
 
-- Python (a versão será gerenciada pelo Poetry)
-- [Poetry](https://python-poetry.org/)
-- `pipx` (recomendado para instalações locais)
-- [Task](https://taskfile.dev/) para gerenciamento de comandos
+* Python (a versão será gerenciada pelo Poetry)
+* [Poetry](https://python-poetry.org/)
+* `pipx` (recomendado para instalações locais)
+* [Task](https://taskfile.dev/) para gerenciamento de comandos
+
+---
 
 ## 🛠️ Instalação
 
 ### ✅ 1. Instalando o Poetry
 
-- **Se estiver no Codespaces**, instale diretamente com:
+* **Se estiver no Codespaces**, instale diretamente com:
 
 ```bash
 pip install poetry
 ```
 
-- **Se estiver rodando localmente**, **não instale o poetry diretamente com `pip` fora de um ambiente isolado**. Em vez disso, use o `pipx`:
+* **Se estiver rodando localmente**, **não instale o poetry diretamente com `pip` fora de um ambiente isolado**. Em vez disso, use o `pipx`:
 
 ```bash
 pip install pipx
@@ -45,7 +49,13 @@ poetry install                      # Instala todas as dependências do projeto
 
 ## ▶️ Rodando a API
 
-Na raiz do projeto:
+Antes de iniciar a aplicação, é necessário aplicar as migrações do banco de dados com o Alembic:
+
+```bash
+alembic upgrade head
+```
+
+Em seguida, rode a aplicação com:
 
 ```bash
 task run
@@ -55,7 +65,8 @@ task run
 
 ## 📌 Observações
 
-- Sempre utilize ambientes virtuais isolados ao trabalhar com o `poetry`.
-- O uso do `pipx` garante que o `poetry` não conflite com outros pacotes Python no sistema global.
+* Sempre utilize ambientes virtuais isolados ao trabalhar com o `poetry`.
+* O uso do `pipx` garante que o `poetry` não conflite com outros pacotes Python no sistema global.
+* Certifique-se de que o banco de dados esteja acessível e configurado corretamente no arquivo `.env` antes de rodar `alembic upgrade head`.
 
 ---
