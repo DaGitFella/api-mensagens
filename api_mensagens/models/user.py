@@ -24,7 +24,9 @@ class User:
     )
 
     messages: Mapped[List["Message"]] = relationship(
-        "Message", back_populates="user"
+        "Message", 
+        back_populates="user",
+        cascade="all, delete-orphan"
     )
     comments: Mapped[List["Comment"]] = relationship(
         "Comment", back_populates="author"
