@@ -29,13 +29,13 @@ def login_for_access_token_service(form_data: OAuth2Form, session: Session):
     )
 
     refresh_token = create_refresh_token(
-        data={"sub": user.email, "is_stagg": user.is_staff}
+        data={"sub": user.email, "is_staff": user.is_staff}
     )
 
 
-    return {"access_token": access_token, 
-            "refresh_token": refresh_token, 
-            "token_type": "bearer"}
+    return {'access_token': access_token,
+            "refresh_token": refresh_token}
+
 
 
 def refresh_token_service(refresh_token: str = Body(..., embed=True)):
@@ -46,7 +46,8 @@ def refresh_token_service(refresh_token: str = Body(..., embed=True)):
     if not user_mail:
         raise forbidden_exception(detail="Token é inválido")
 
-    new_access_token = create_refresh_token(
+    new_access_token = create_access_token(
         data={"sub": user_mail, "is_staff": is_staff}
     )
+    
     return {"access_token": new_access_token, "token_type": "bearer"}
