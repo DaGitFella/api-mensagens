@@ -14,6 +14,7 @@ if TYPE_CHECKING:
 class Message:
     __tablename__ = "messages"
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
+    title: Mapped[str] = mapped_column(nullable=False)
     content: Mapped[str] = mapped_column(nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         init=False, nullable=False, server_default=func.now()

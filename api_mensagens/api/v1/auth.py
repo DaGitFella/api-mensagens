@@ -9,7 +9,7 @@ from api_mensagens.services.auth_service import (
 router = APIRouter()
 
 
-@router.post("/token", response_model=Token)
+@router.post("/login", response_model=Token)
 def login_for_access_token(form_data: OAuth2Form, session: Session):
     return login_for_access_token_service(form_data, session)
 

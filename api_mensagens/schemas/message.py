@@ -2,6 +2,12 @@ from pydantic import BaseModel, Field, field_validator
 
 
 class MessageCreate(BaseModel):
+    title: str = Field(
+        min_length=1,
+        max_length=100,
+        description="Título da mensagem",
+        examples=["A odisséia de Baesse"]
+    )
     content: str = Field(
         min_length=1,
         max_length=146,
@@ -9,7 +15,7 @@ class MessageCreate(BaseModel):
         examples=["Baesse heróico", "Vincente não me deu 100 :/"],
     )
 
-    @field_validator("content")
+    @field_validator("content", "title")
     @classmethod
     def content_not_blank(cls, value: str):
         if not value.strip():
@@ -21,6 +27,7 @@ class MessageCreate(BaseModel):
 
 class PublicMessage(BaseModel):
     id: int
+    title: str
     content: str
 
 

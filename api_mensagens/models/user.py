@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import List
 
 from sqlalchemy import func
+from sqlalchemy.sql import expression
 
 from api_mensagens.db.base import table_registry
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -17,7 +18,9 @@ class User:
     email: Mapped[str] = mapped_column(nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
     is_staff: Mapped[bool] = mapped_column(
-        nullable=False, init=False, default=False
+        nullable=False, init=False,
+        server_default=expression.false(),
+        default=False
     )
     created_at: Mapped[datetime] = mapped_column(
         init=False, server_default=func.now()

@@ -78,12 +78,9 @@ def user_2(session):
 @pytest.fixture
 def message(session, user):
     message = Message(
-        content="Baesse", user_id=user.id, user=user, comments=[]
+        title='A odisséia de Baesse',content="Baesse",
+        user_id=user.id, user=user, comments=[]
     )
-    session.add(message)
-    session.commit()
-    session.refresh(message)
-
     session.add(message)
     session.commit()
     session.refresh(message)
@@ -94,13 +91,13 @@ def message(session, user):
 @pytest.fixture
 def token(client, user):
     response = client.post(
-        "auth/token",
+        "auth/login",
         data={"username": user.email, "password": user.clean_password},
     )
 
-    return response.json()["access_token"]
+    return response.json()
 
 
 @pytest.fixture
 def headers(token):
-    return {"Authorization": f"Bearer {token}"}
+    return {"Authorization": f"Bearer {token['access_token']}"}

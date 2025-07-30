@@ -15,6 +15,7 @@ def create_message(
     db: Session, message: MessageCreate, current_user: CurrentUser
 ):
     db_message = Message(
+        title=message.title,
         content=message.content,
         user_id=current_user.id,
         user=current_user,
@@ -31,6 +32,10 @@ def get_all_messages(db: Session, filter_page: FilterPage):
         select(Message).offset(filter_page.offset).limit(filter_page.limit)
     ).all()
 
+
+def get_message(db: Session, message_id: int, current_user: CurrentUser):
+    message = get_or_404(db=db, resource=Message, object_id=message_id)
+    return message
 
 def get_my_messages(db: Session, current_user: CurrentUser):
     messages = db.scalars(
@@ -75,6 +80,7 @@ def update_message(
             detail="You don't have permission to access this message"
         )
 
+    db_message.title = message.title
     db_message.content = message.content
     db.commit()
     db.refresh(db_message)
