@@ -34,9 +34,10 @@ def credentials_exception(
     return HTTPException(status_code=HTTPStatus.UNAUTHORIZED, detail=detail)
 
 
-conflict_exception = HTTPException(
-    status_code=HTTPStatus.CONFLICT, detail="Email already exists."
-)
+def conflict_exception(detail: str = '') -> HTTPException:
+    return HTTPException(
+        status_code=HTTPStatus.CONFLICT, detail=detail
+    )
 
 
 def forbidden_exception(detail: str = "Forbidden") -> HTTPException:

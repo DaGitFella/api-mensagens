@@ -12,12 +12,6 @@ from api_mensagens.core.exceptions import (
 )
 
 
-def get_all_users_service(session: Session):
-    users = session.scalars(select(User)).all()
-
-    return users
-
-
 def create_user_service(user: UserCreate, session: Session):
     db_user = session.scalar(select(User).where(User.email == user.email))
     if db_user:
@@ -45,16 +39,22 @@ def update_me_service(
     session: Session,
     current_user: CurrentUser,
 ):
+
     try:
-        current_user.username = user.username
-        current_user.email = user.email
+        if user.username:
+            current_user.username = user.username
+
+        if user.email:
+            current_user.email = user.email
+
         session.commit()
         session.refresh(current_user)
 
         return current_user
 
-    except IntegrityError:
-        raise conflict_exception
+    except IntegrityError as e:
+        return e
+        # raise conflict_exception(detail="Email already registered")
 
 
 def delete_me_service(
@@ -76,4 +76,24 @@ def delete_user_service(
         session.commit()
         return {"message": "User has been deleted"}
 
-    raise forbidden_exception("You are not allowed to perform this action.")
+    raise forbidden_exception("You can't delete other users.")
+
+def update_user_service(
+    session: Session,
+    update_data: UserUpdate,
+    current_user: CurrentUser,
+    user_id: int,
+):
+
+    if not current_user.is_staff or current_user.id != user_id:
+        raise forbidden_exception("You can't update other users.")
+
+    if update_data.username:
+        current_user.username = update_data.username
+
+    if update_data.email:
+        current_user.email = update_data.email
+
+    session.commit()
+    session.refresh(current_user)
+    return current_user

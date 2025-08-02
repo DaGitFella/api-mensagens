@@ -1,4 +1,6 @@
 from datetime import datetime
+from typing import Optional
+
 from pydantic import BaseModel, EmailStr, Field, field_validator
 import re
 
@@ -41,5 +43,9 @@ class UserCreate(BaseModel):
 
 
 class UserUpdate(BaseModel):
-    username: str
-    email: EmailStr
+    username: Optional[str] = Field(
+        default=None,
+    )
+    email: Optional[EmailStr] = Field(
+        default=None,
+    )
