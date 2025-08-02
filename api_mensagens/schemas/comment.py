@@ -1,4 +1,3 @@
-from datetime import datetime
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -39,7 +38,6 @@ class CommentUpdate(BaseModel):
 class PublicComment(BaseModel):
     id: int
     content: str
-    created_at: datetime
     author_id: int
     message_id: int
 

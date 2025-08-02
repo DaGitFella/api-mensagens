@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from api_mensagens.main import app
 from api_mensagens.models.user import User
 from api_mensagens.models.message import Message
+from api_mensagens.models.comment import Comment
 from api_mensagens.core.security import get_password_hash
 
 
@@ -78,8 +79,11 @@ def user_2(session):
 @pytest.fixture
 def message(session, user):
     message = Message(
-        title='A odisséia de Baesse',content="Baesse",
-        user_id=user.id, user=user, comments=[]
+        title="A odisséia de Baesse",
+        content="Baesse",
+        user_id=user.id,
+        user=user,
+        comments=[],
     )
     session.add(message)
     session.commit()
@@ -87,6 +91,36 @@ def message(session, user):
 
     return message
 
+
+@pytest.fixture
+def message_2(session, user_2):
+    message = Message(
+        title="A odisséia de Baesse",
+        content="Baesse",
+        user_id=user_2.id,
+        user=user_2,
+        comments=[],
+    )
+    session.add(message)
+    session.commit()
+    session.refresh(message)
+
+    return message
+
+
+@pytest.fixture
+def comment(session, message, user):
+    comment = Comment(
+        content='eu odeio essa messagem. Apague',
+        author_id=user.id,
+        message_id=message.id
+    )
+
+    session.add(comment)
+    session.commit()
+    session.refresh(comment)
+
+    return comment
 
 @pytest.fixture
 def token(client, user):

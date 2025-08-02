@@ -4,6 +4,7 @@ from api_mensagens.core.exceptions import (
     get_or_404,
     credentials_exception,
     not_found_exception,
+    forbidden_exception,
 )
 from api_mensagens.models.message import Message
 from api_mensagens.schemas.message import MessageCreate, MessagePatch
@@ -37,6 +38,7 @@ def get_message(db: Session, message_id: int, current_user: CurrentUser):
     message = get_or_404(db=db, resource=Message, object_id=message_id)
     return message
 
+
 def get_my_messages(db: Session, current_user: CurrentUser):
     messages = db.scalars(
         select(Message).where(Message.user_id == current_user.id)
@@ -56,7 +58,7 @@ def delete_message(db: Session, message_id: int, current_user: CurrentUser):
     )
 
     if not current_user.is_staff and message.user_id != current_user.id:
-        raise credentials_exception(
+        raise forbidden_exception(
             detail="You don't have permission to access this message"
         )
 
@@ -86,11 +88,12 @@ def update_message(
     db.refresh(db_message)
     return db_message
 
+
 def change_message(
-        db: Session,
-        message_id: int,
-        message: MessagePatch,
-        current_user: CurrentUser,
+    db: Session,
+    message_id: int,
+    message: MessagePatch,
+    current_user: CurrentUser,
 ):
     db_message = get_or_404(
         db, Message, object_id=message_id, resource_name="message"

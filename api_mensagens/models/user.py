@@ -18,18 +18,17 @@ class User:
     email: Mapped[str] = mapped_column(nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
     is_staff: Mapped[bool] = mapped_column(
-        nullable=False, init=False,
+        nullable=False,
+        init=False,
         server_default=expression.false(),
-        default=False
+        default=False,
     )
     created_at: Mapped[datetime] = mapped_column(
         init=False, server_default=func.now()
     )
 
     messages: Mapped[List["Message"]] = relationship(
-        "Message", 
-        back_populates="user",
-        cascade="all, delete-orphan"
+        "Message", back_populates="user", cascade="all, delete-orphan"
     )
     comments: Mapped[List["Comment"]] = relationship(
         "Comment", back_populates="author"

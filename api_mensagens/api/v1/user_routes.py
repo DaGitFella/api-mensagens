@@ -1,5 +1,4 @@
 from http import HTTPStatus
-from typing import List
 
 from fastapi import APIRouter
 
@@ -10,7 +9,8 @@ from api_mensagens.services.user_service import (
     create_user_service,
     update_me_service,
     delete_me_service,
-    delete_user_service, update_user_service,
+    delete_user_service,
+    update_user_service,
 )
 
 router = APIRouter()
@@ -43,6 +43,7 @@ def update_user(
     user_id: int,
 ):
     return update_user_service(session, user, current_user, user_id)
+
 
 @router.delete("/me")
 def delete_me(

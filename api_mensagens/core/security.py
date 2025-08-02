@@ -88,10 +88,7 @@ def create_refresh_token(data: dict):
     expire = datetime.now(tz=ZoneInfo("UTC")) + timedelta(
         days=settings.REFRESH_TOKEN_EXPIRE_DAYS
     )
-    to_encode.update({
-        "exp": expire,
-        "type": "refresh"
-        })
+    to_encode.update({"exp": expire, "type": "refresh"})
     encoded_jwt = encode(
         to_encode,
         settings.SECRET_KEY,

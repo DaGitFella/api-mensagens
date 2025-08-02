@@ -31,10 +31,10 @@ def test_get_token_with_wrong_password(client, user):
 
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
+
 def test_get_new_token(client, token):
     response = client.post(
-        "auth/refresh",
-        json={'refresh_token': token['refresh_token']}
+        "auth/refresh", json={"refresh_token": token["refresh_token"]}
     )
 
     assert response.status_code == HTTPStatus.OK

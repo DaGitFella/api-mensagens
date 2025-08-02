@@ -44,7 +44,7 @@ def list_comments_by_message(
     return {"comments": comments}
 
 
-@router.delete("")
+@router.delete("/{comment_id}")
 def delete_comment(
     comment_id: int,
     db: Session,
@@ -53,7 +53,7 @@ def delete_comment(
     return delete_comment_service(db, comment_id, current_user)
 
 
-@router.put("", response_model=PublicComment)
+@router.put("/{comment_id}", response_model=PublicComment)
 def update_comment(
     comment_id: int,
     updated: CommentUpdate,

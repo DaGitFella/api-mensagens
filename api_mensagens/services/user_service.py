@@ -14,8 +14,9 @@ from api_mensagens.core.exceptions import (
 
 def create_user_service(user: UserCreate, session: Session):
     db_user = session.scalar(select(User).where(User.email == user.email))
+
     if db_user:
-        raise conflict_exception
+        raise conflict_exception(detail="User already exists")
 
     hashed_password = get_password_hash(user.password)
 
@@ -39,7 +40,6 @@ def update_me_service(
     session: Session,
     current_user: CurrentUser,
 ):
-
     try:
         if user.username:
             current_user.username = user.username
@@ -52,9 +52,8 @@ def update_me_service(
 
         return current_user
 
-    except IntegrityError as e:
-        return e
-        # raise conflict_exception(detail="Email already registered")
+    except IntegrityError:
+        raise conflict_exception(detail="Email already registered")
 
 
 def delete_me_service(
@@ -78,13 +77,13 @@ def delete_user_service(
 
     raise forbidden_exception("You can't delete other users.")
 
+
 def update_user_service(
     session: Session,
     update_data: UserUpdate,
     current_user: CurrentUser,
     user_id: int,
 ):
-
     if not current_user.is_staff or current_user.id != user_id:
         raise forbidden_exception("You can't update other users.")
 

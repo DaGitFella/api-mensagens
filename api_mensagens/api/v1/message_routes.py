@@ -4,7 +4,10 @@ from api_mensagens.services import message_service
 from api_mensagens.schemas.message import (
     PublicMessage,
     ListMessages,
-    MessageCreate, ListPublicMessages, PrivateMessage, MessagePatch,
+    MessageCreate,
+    ListPublicMessages,
+    PrivateMessage,
+    MessagePatch,
 )
 from http import HTTPStatus
 from api_mensagens.schemas.utils import FilterPage
@@ -33,7 +36,8 @@ def get_messages(
 def get_my_message(db: Session, current_user: CurrentUser):
     return message_service.get_my_messages(db, current_user)
 
-@router.get('/{message_id}', response_model=PrivateMessage)
+
+@router.get("/{message_id}", response_model=PrivateMessage)
 def get_message(db: Session, message_id: int, current_user: CurrentUser):
     return message_service.get_message(db, message_id, current_user)
 
@@ -52,14 +56,16 @@ def update_message(
 
 @router.patch("/{message_id}", response_model=PrivateMessage)
 def change_message(
-        message_id: int,
-        message: MessagePatch,
-        db: Session,
-        current_user: CurrentUser,
+    message_id: int,
+    message: MessagePatch,
+    db: Session,
+    current_user: CurrentUser,
 ):
     return message_service.change_message(
         db, message_id, message, current_user
     )
+
+
 @router.delete("/{message_id}")
 def delete_message(message_id, db: Session, current_user: CurrentUser):
     return message_service.delete_message(db, message_id, current_user)
