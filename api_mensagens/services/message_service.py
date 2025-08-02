@@ -6,7 +6,7 @@ from api_mensagens.core.exceptions import (
     not_found_exception,
 )
 from api_mensagens.models.message import Message
-from api_mensagens.schemas.message import MessageCreate
+from api_mensagens.schemas.message import MessageCreate, MessagePatch
 from api_mensagens.schemas.utils import FilterPage
 from api_mensagens.core.security import Session, CurrentUser
 
@@ -82,6 +82,31 @@ def update_message(
 
     db_message.title = message.title
     db_message.content = message.content
+    db.commit()
+    db.refresh(db_message)
+    return db_message
+
+def change_message(
+        db: Session,
+        message_id: int,
+        message: MessagePatch,
+        current_user: CurrentUser,
+):
+    db_message = get_or_404(
+        db, Message, object_id=message_id, resource_name="message"
+    )
+
+    if not current_user.is_staff and db_message.user_id != current_user.id:
+        raise credentials_exception(
+            detail="You don't have permission to access this message"
+        )
+
+    if message.title:
+        db_message.title = message.title
+
+    if message.content:
+        db_message.content = message.content
+
     db.commit()
     db.refresh(db_message)
     return db_message
