@@ -1,4 +1,4 @@
-***
+'''
 
 # 📡 API de Mensagens
 
@@ -11,30 +11,73 @@ Este repositório contém a API de mensagens, desenvolvida com Python e gerencia
 * `pipx` (recomendado para instalações locais)
 * [Task](https://taskfile.dev/) para gerenciamento de comandos
 
-***
-
+'''
 ## 🛠️ Instalação
 
-### ✅ 1. Instalando o Poetry
+### ✅ 1. Instalando o `pipx`
 
-* **Se estiver no Codespaces**, instale diretamente com:
+O `pipx` permite instalar ferramentas Python globais de forma isolada. Veja como instalá-lo de acordo com o seu sistema operacional:
 
-```bash
-pip install poetry
+#### 🔵 Windows (recomendado: via [Scoop](https://scoop.sh))
+
+1. Instale o [Scoop](https://scoop.sh/) (caso ainda não tenha):
+
+```powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 ```
 
-* **Se estiver rodando localmente**, **não instale o poetry diretamente com `pip` fora de um ambiente isolado**. Em vez disso, use o `pipx`:
+2. Adicione o repositório `main` e instale o `pipx`:
 
-```bash
-pip install pipx
-pipx install poetry
+```powershell
+scoop install python
+scoop install pipx
+pipx ensurepath
 ```
 
-> ⚠️ **Importante:** Não instale o `poetry` globalmente com `pip` fora de um ambiente virtual. Isso pode causar conflitos com dependências de outros pacotes Python no sistema.
+> Após executar `pipx ensurepath`, **reinicie o terminal** para que o caminho seja reconhecido.
 
 ---
 
-### ✅ 2. Configurando o Ambiente
+#### 🟢 Distros baseadas em Arch (Arch, Manjaro, EndeavourOS...)
+
+```bash
+sudo pacman -S pipx
+pipx ensurepath
+```
+
+---
+
+#### 🔴 Distros baseadas em Debian (Debian, Ubuntu, Linux Mint...)
+
+```bash
+sudo apt update
+sudo apt install pipx python3-venv
+pipx ensurepath
+```
+
+> ⚠️ Caso o `pipx` não esteja disponível diretamente no seu repositório:
+>
+> ```bash
+> python3 -m pip install --user pipx
+> python3 -m pipx ensurepath
+> ```
+
+---
+
+### ✅ 2. Instalando o Poetry
+
+Com o `pipx` instalado corretamente, instale o `poetry`:
+
+```bash
+pipx install poetry
+```
+
+> ⚠️ **Importante:** Não instale o `poetry` com `pip` diretamente fora de um ambiente isolado. Isso pode causar conflitos com dependências de outros pacotes Python no sistema.
+
+---
+
+### ✅ 3. Configurando o Ambiente
 
 Com o `poetry` já instalado:
 
