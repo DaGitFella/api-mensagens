@@ -83,6 +83,7 @@ Com o `poetry` já instalado:
 
 ```bash
 poetry python install 3.13          # Baixa e instala o Python 3.13 (caso necessário)
+poetry env use python 3.13          # Para garantir o uso da versão correta do python
 poetry self add poetry-plugin-shell # Adiciona o plugin do shell para o poetry
 poetry shell                        # Entra no shell do poetry
 poetry install                      # Instala todas as dependências do projeto
@@ -113,3 +114,4 @@ task run
 * Certifique-se de que o banco de dados esteja acessível e configurado corretamente no arquivo `.env` antes de rodar `alembic upgrade head`.
 
 ---
+
