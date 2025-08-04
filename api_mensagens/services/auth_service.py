@@ -21,15 +21,15 @@ def login_for_access_token_service(form_data: OAuth2Form, session: Session):
     if not user:
         raise credentials_exception(detail="Incorrect email or password")
 
-    if not verify_password(form_data.password, user.password):
+    if not verify_password(form_data.password, user.senha):
         raise credentials_exception(detail="Incorrect email or password")
 
     access_token = create_access_token(
-        data={"sub": user.email, "is_staff": user.is_staff}
+        data={"sub": user.email, "is_staff": user.perfil}
     )
 
     refresh_token = create_refresh_token(
-        data={"sub": user.email, "is_staff": user.is_staff}
+        data={"sub": user.email, "is_staff": user.perfil}
     )
 
     return {"access_token": access_token, "refresh_token": refresh_token}

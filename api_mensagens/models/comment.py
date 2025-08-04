@@ -11,22 +11,22 @@ if TYPE_CHECKING:
 
 @table_registry.mapped_as_dataclass
 class Comment:
-    __tablename__ = "comments"
+    __tablename__ = "comentarios"
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
-    content: Mapped[str] = mapped_column(nullable=False)
-    created_at: Mapped[datetime] = mapped_column(
+    conteudo: Mapped[str] = mapped_column(nullable=False)
+    data_criacao: Mapped[datetime] = mapped_column(
         init=False, nullable=False, server_default=func.now()
     )
 
-    author_id: Mapped[int] = mapped_column(
-        ForeignKey("users.id"), nullable=False
+    id_autor: Mapped[int] = mapped_column(
+        ForeignKey("usuarios.id"), nullable=False
     )
-    author: Mapped[Optional["User"]] = relationship(
-        "User", back_populates="comments", init=False
+    autor: Mapped[Optional["User"]] = relationship(
+        "User", back_populates="comentarios", init=False
     )
-    message_id: Mapped[int] = mapped_column(
-        ForeignKey("messages.id"), nullable=False
+    id_mensagem: Mapped[int] = mapped_column(
+        ForeignKey("mensagens.id"), nullable=False
     )
-    message: Mapped[Optional["Message"]] = relationship(
-        "Message", back_populates="comments", init=False
+    mensagem: Mapped[Optional["Message"]] = relationship(
+        "Message", back_populates="comentarios", init=False
     )

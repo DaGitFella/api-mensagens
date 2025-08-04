@@ -5,20 +5,20 @@ from api_mensagens.schemas.comment import PublicComment
 
 
 class MessageCreate(BaseModel):
-    title: str = Field(
+    titulo: str = Field(
         min_length=1,
         max_length=100,
         description="Título da mensagem",
         examples=["A odisséia de Baesse"],
     )
-    content: str = Field(
+    conteudo: str = Field(
         min_length=1,
         max_length=146,
         description="The content of the message.",
         examples=["Baesse heróico", "Vincente não me deu 100 :/"],
     )
 
-    @field_validator("content", "title")
+    @field_validator("conteudo", "titulo")
     @classmethod
     def content_not_blank(cls, value: str):
         if not value.strip():
@@ -29,14 +29,14 @@ class MessageCreate(BaseModel):
 
 
 class MessagePatch(BaseModel):
-    title: Optional[str] = Field(
+    titulo: Optional[str] = Field(
         default=None,
         min_length=1,
         max_length=100,
         description="Título da mensagem",
         examples=["A odisséia de Baesse"],
     )
-    content: Optional[str] = Field(
+    conteudo: Optional[str] = Field(
         default=None,
         min_length=1,
         max_length=146,
@@ -44,7 +44,7 @@ class MessagePatch(BaseModel):
         examples=["Baesse heróico", "Vincente não me deu 100 :/"],
     )
 
-    @field_validator("content", "title")
+    @field_validator("conteudo", "titulo")
     @classmethod
     def content_not_blank(cls, value: str):
         if not value.strip():
@@ -56,17 +56,17 @@ class MessagePatch(BaseModel):
 
 class PublicMessage(BaseModel):
     id: int
-    title: str
-    content: str
-    user_id: int
+    titulo: str
+    conteudo: str
+    id_usuario: int
 
 
 class PrivateMessage(BaseModel):
     id: int
-    title: str
-    content: str
-    user_id: int
-    comments: list[PublicComment]
+    titulo: str
+    conteudo: str
+    id_usuario: int
+    comentarios: list[PublicComment]
 
 
 class ListMessages(BaseModel):

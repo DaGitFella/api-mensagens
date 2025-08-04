@@ -42,11 +42,11 @@ def session():
 def user(session):
     password = "testtest"
     user = User(
-        username="test",
+        nome="test",
         email="test@test.com",
-        password=get_password_hash(password),
-        messages=[],
-        comments=[],
+        senha=get_password_hash(password),
+        mensagens=[],
+        comentarios=[],
     )
     session.add(user)
     session.commit()
@@ -61,11 +61,11 @@ def user(session):
 def user_2(session):
     password = "lucas"
     user_2 = User(
-        username="lucas",
+        nome="lucas",
         email="lucas@gmail.com",
-        password=get_password_hash(password),
-        messages=[],
-        comments=[],
+        senha=get_password_hash(password),
+        mensagens=[],
+        comentarios=[],
     )
     session.add(user_2)
     session.commit()
@@ -79,11 +79,11 @@ def user_2(session):
 @pytest.fixture
 def message(session, user):
     message = Message(
-        title="A odisséia de Baesse",
-        content="Baesse",
-        user_id=user.id,
-        user=user,
-        comments=[],
+        titulo="A odisséia de Baesse",
+        conteudo="Baesse",
+        id_usuario=user.id,
+        usuario=user,
+        comentarios=[]
     )
     session.add(message)
     session.commit()
@@ -95,11 +95,11 @@ def message(session, user):
 @pytest.fixture
 def message_2(session, user_2):
     message = Message(
-        title="A odisséia de Baesse",
-        content="Baesse",
-        user_id=user_2.id,
-        user=user_2,
-        comments=[],
+        titulo="A odisséia de Baesse",
+        conteudo="Baesse",
+        id_usuario=user_2.id,
+        usuario=user_2,
+        comentarios=[],
     )
     session.add(message)
     session.commit()
@@ -111,9 +111,9 @@ def message_2(session, user_2):
 @pytest.fixture
 def comment(session, message, user):
     comment = Comment(
-        content='eu odeio essa messagem. Apague',
-        author_id=user.id,
-        message_id=message.id
+        conteudo="eu odeio essa messagem. Apague",
+        id_usuario=user.id,
+        id_mensagem=message.id,
     )
 
     session.add(comment)
@@ -121,6 +121,7 @@ def comment(session, message, user):
     session.refresh(comment)
 
     return comment
+
 
 @pytest.fixture
 def token(client, user):

@@ -12,18 +12,18 @@ if TYPE_CHECKING:
 
 @table_registry.mapped_as_dataclass
 class Message:
-    __tablename__ = "messages"
+    __tablename__ = "mensagens"
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
-    title: Mapped[str] = mapped_column(nullable=False)
-    content: Mapped[str] = mapped_column(nullable=False)
-    created_at: Mapped[datetime] = mapped_column(
+    titulo: Mapped[str] = mapped_column(nullable=False)
+    conteudo: Mapped[str] = mapped_column(nullable=False)
+    data_criacao: Mapped[datetime] = mapped_column(
         init=False, nullable=False, server_default=func.now()
     )
 
-    user_id: Mapped[int] = mapped_column(
-        ForeignKey("users.id"), nullable=False
+    id_usuario: Mapped[int] = mapped_column(
+        ForeignKey("usuarios.id"), nullable=False
     )
-    user: Mapped["User"] = relationship("User", back_populates="messages")
-    comments: Mapped[List["Comment"]] = relationship(
-        "Comment", back_populates="message", cascade="all, delete-orphan"
+    usuario: Mapped["User"] = relationship("User", back_populates="mensagens")
+    comentarios: Mapped[List["Comment"]] = relationship(
+        "Comment", back_populates="mensagem", cascade="all, delete-orphan"
     )

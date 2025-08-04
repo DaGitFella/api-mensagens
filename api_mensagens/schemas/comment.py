@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field, field_validator
 
 
 class CommentCreate(BaseModel):
-    content: str = Field(
+    conteudo: str = Field(
         min_length=1,
         max_length=146,
         description="The content of the comment.",
@@ -12,7 +12,7 @@ class CommentCreate(BaseModel):
         ],
     )
 
-    @field_validator("content")
+    @field_validator("conteudo")
     @classmethod
     def content_not_blank(cls, value: str):
         if not value.strip():
@@ -21,13 +21,13 @@ class CommentCreate(BaseModel):
 
 
 class CommentUpdate(BaseModel):
-    content: str = Field(
+    conteudo: str = Field(
         min_length=1,
         max_length=146,
         description="Updated content of the comment.",
     )
 
-    @field_validator("content")
+    @field_validator("conteudo")
     @classmethod
     def content_not_blank(cls, value: str):
         if not value.strip():
@@ -37,10 +37,10 @@ class CommentUpdate(BaseModel):
 
 class PublicComment(BaseModel):
     id: int
-    content: str
-    author_id: int
-    message_id: int
+    conteudo: str
+    id_autor: int
+    id_mensagem: int
 
 
 class ListComments(BaseModel):
-    comments: list[PublicComment]
+    comentarios: list[PublicComment]

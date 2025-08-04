@@ -13,18 +13,18 @@ from api_mensagens.core.security import Session, CurrentUser
 
 def create_comment_service(
     db: Session,
-    message_id: int,
+    id_mensagem: int,
     comment_data: CommentCreate,
     current_user: CurrentUser,
 ):
-    message = db.scalar(select(Message).where(Message.id == message_id))
+    message = db.scalar(select(Message).where(Message.id == id_mensagem))
     if not message:
         raise not_found_exception(detail="Message not found.")
 
     comment = Comment(
-        content=comment_data.content,
-        author_id=current_user.id,
-        message_id=message_id,
+        conteudo=comment_data.conteudo,
+        id_autor=current_user.id,
+        id_mensagem=id_mensagem,
     )
 
     db.add(comment)
@@ -33,13 +33,13 @@ def create_comment_service(
     return comment
 
 
-def list_comments_by_message_service(db: Session, message_id: int):
-    message = db.scalar(select(Message).where(Message.id == message_id))
+def list_comments_by_message_service(db: Session, id_mensagem: int):
+    message = db.scalar(select(Message).where(Message.id == id_mensagem))
     if not message:
         raise not_found_exception(detail="Message not found.")
 
     return db.scalars(
-        select(Comment).where(Comment.message_id == message_id)
+        select(Comment).where(Comment.id_mensagem == id_mensagem)
     ).all()
 
 
@@ -51,12 +51,12 @@ def update_comment_service(
 ):
     comment = get_or_404(db, Comment, comment_id, "comment")
 
-    if not current_user.is_staff and comment.author_id != current_user.id:
+    if current_user.perfil != "ADMIN" and comment.id_autor != current_user.id:
         raise credentials_exception(
             detail="You can only update your own comments."
         )
 
-    comment.content = comment_data.content
+    comment.conteudo = comment_data.conteudo
     db.commit()
     db.refresh(comment)
     return comment
@@ -69,7 +69,7 @@ def delete_comment_service(
 ):
     comment = get_or_404(db, Comment, comment_id, "comment")
 
-    if not current_user.is_staff and comment.author_id != current_user.id:
+    if current_user.perfil != "ADMIN" and comment.id_autor != current_user.id:
         raise credentials_exception(
             detail="You can only delete your own comments."
         )

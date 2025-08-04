@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, EmailStr, Field, field_validator
@@ -7,19 +6,19 @@ import re
 
 class UserPublic(BaseModel):
     id: int
-    username: str
+    nome: str
     email: EmailStr
-    is_staff: bool
-    created_at: datetime
+    perfil: str
 
 
 # noinspection PyNestedDecorators
 class UserCreate(BaseModel):
-    username: str
+    nome: str
     email: EmailStr
-    password: str = Field(..., min_length=8, examples=["Ast4!._666"])
+    senha: str = Field(..., min_length=8, examples=["Ast4!._666"])
+    perfil: Optional[str] = "USUARIO"
 
-    @field_validator("password", mode="plain")
+    @field_validator("senha", mode="plain")
     @classmethod
     def check_password(cls, value: str):
         patterns = {
@@ -43,7 +42,7 @@ class UserCreate(BaseModel):
 
 
 class UserUpdate(BaseModel):
-    username: Optional[str] = Field(
+    nome: Optional[str] = Field(
         default=None,
     )
     email: Optional[EmailStr] = Field(
