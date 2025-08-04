@@ -13,19 +13,19 @@ from api_mensagens.core.exceptions import (
 
 
 def create_user_service(user: UserCreate, session: Session):
-    db_user = session.scalar(select(User).where(User.email == user.email))
+    db_user: User = session.scalar(select(User).where(User.email == user.email))
 
     if db_user:
         raise conflict_exception(detail="User already exists")
 
-    hashed_password = get_password_hash(user.password)
+    hashed_password = get_password_hash(user.senha)
 
     db_user = User(
-        username=user.username,
-        password=hashed_password,
+        nome=user.nome,
+        senha=hashed_password,
         email=user.email,
-        messages=[],
-        comments=[],
+        mensagens=[],
+        comentarios=[],
     )
 
     session.add(db_user)
@@ -41,8 +41,8 @@ def update_me_service(
     current_user: CurrentUser,
 ):
     try:
-        if user.username:
-            current_user.username = user.username
+        if user.nome:
+            current_user.nome = user.nome
 
         if user.email:
             current_user.email = user.email
@@ -69,7 +69,7 @@ def delete_me_service(
 def delete_user_service(
     session: Session, current_user: CurrentUser, user_id: int
 ):
-    if current_user.is_staff or current_user.id == user_id:
+    if current_user.perfil == 'admin' or current_user.id == user_id:
         user = get_or_404(session, User, user_id)
         session.delete(user)
         session.commit()
@@ -84,7 +84,7 @@ def update_user_service(
     current_user: CurrentUser,
     user_id: int,
 ):
-    if not current_user.is_staff or current_user.id != user_id:
+    if current_user.perfil == 'admin' or current_user.id != user_id:
         raise forbidden_exception("You can't update other users.")
 
     if update_data.username:

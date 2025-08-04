@@ -33,7 +33,7 @@ def test_get_message_comments_must_return_200_and_comments(
                 "conteudo": comment.conteudo,
                 "usuario_id": comment.usuario_id,
                 "mensagem_id": comment.mensagem_id,
-                "data_criacao": comment.data_criacao,
+                "data_criacao": comment.data_criacao.isoformat(),
             }
         ]
     }
@@ -63,6 +63,7 @@ def test_update_comment_must_return_200(
     assert response.json() == {
         "id": comment.id,
         "conteudo": "eu gosto dessa mensagem",
-        "id_autor": comment.id_autor,
-        "id_mensagem": comment.id_mensagem,
+        "usuario_id": comment.usuario_id,
+        "mensagem_id": comment.mensagem_id,
+        "data_criacao": comment.data_criacao.isoformat(),
     }

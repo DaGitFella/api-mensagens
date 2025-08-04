@@ -8,7 +8,7 @@ class UserPublic(BaseModel):
     id: int
     nome: str
     email: EmailStr
-    perfil: str
+    perfil: str = Field(examples=["ADMIN"])
 
 
 # noinspection PyNestedDecorators

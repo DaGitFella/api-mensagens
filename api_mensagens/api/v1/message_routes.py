@@ -29,7 +29,7 @@ def get_messages(
     filter_page: Annotated[FilterPage, Query()],
 ):
     messages = message_service.get_all_messages(db, filter_page)
-    return {"messages": messages}
+    return {"mensagens": messages}
 
 
 @router.get("/me", response_model=ListMessages)

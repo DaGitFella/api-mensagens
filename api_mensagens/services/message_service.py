@@ -53,11 +53,11 @@ def get_my_messages(db: Session, current_user: CurrentUser):
 
 
 def delete_message(db: Session, message_id: int, current_user: CurrentUser):
-    message = get_or_404(
+    message: Message = get_or_404(
         db, Message, object_id=message_id, resource_name="message"
     )
 
-    if current_user.perfil != "ADMIN" or message.user_id != current_user.id:
+    if current_user.perfil != "ADMIN" and message.usuario_id != current_user.id:
         raise forbidden_exception(
             detail="You don't have permission to access this message"
         )
@@ -73,11 +73,11 @@ def update_message(
     message: MessageCreate,
     current_user: CurrentUser,
 ):
-    db_message = get_or_404(
+    db_message: Message = get_or_404(
         db, Message, object_id=message_id, resource_name="message"
     )
 
-    if current_user.perfil != "ADMIN" or db_message.user_id != current_user.id:
+    if current_user.perfil != "ADMIN" and db_message.usuario_id != current_user.id:
         raise credentials_exception(
             detail="You don't have permission to access this message"
         )
@@ -95,11 +95,11 @@ def change_message(
     message: MessagePatch,
     current_user: CurrentUser,
 ):
-    db_message = get_or_404(
+    db_message: Message = get_or_404(
         db, Message, object_id=message_id, resource_name="message"
     )
 
-    if current_user.perfil != "ADMIN" or db_message.user_id != current_user.id:
+    if current_user.perfil != "ADMIN" and db_message.usuario_id != current_user.id:
         raise credentials_exception(
             detail="You don't have permission to access this message"
         )

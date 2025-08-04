@@ -26,10 +26,10 @@ def test_create_message_must_return_401(client):
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 
-def test_create_message_with_invalid_conteudo(client, token, headers):
+def test_create_message_with_invalid_content(client, token, headers):
     response = client.post("/messages", headers=headers, json={"conteudo": ""})
 
-    assert response.status_code == HTTPStatus.UNPROCESSABLE_conteudo
+    assert response.status_code == HTTPStatus.UNPROCESSABLE_CONTENT
 
 
 def test_get_messages_must_return_200_and_message(
@@ -40,12 +40,12 @@ def test_get_messages_must_return_200_and_message(
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
-        "messages": [
+        "mensagens": [
             {
                 "titulo": message.titulo,
                 "conteudo": message.conteudo,
                 "id": message.id,
-                "user_id": message.user_id,
+                "usuario_id": message.usuario_id,
             }
         ]
     }
@@ -92,7 +92,7 @@ def test_update_message_must_return_200_and_message(
     }
 
 
-def test_update_message_with_partial_conteudo_must_return_200_and_message(
+def test_update_message_with_partial_content_must_return_200_and_message(
     client, message, token, headers
 ):
     response = client.patch(
@@ -108,8 +108,8 @@ def test_update_message_with_partial_conteudo_must_return_200_and_message(
         "id": message.id,
         "titulo": "A morte do rei gado",
         "conteudo": message.conteudo,
-        "user_id": message.user_id,
-        "comments": [],
+        "usuario_id": message.usuario_id,
+        "comentarios": [],
     }
 
 
