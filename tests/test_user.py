@@ -6,21 +6,21 @@ def test_create_user_must_return_201(client):
         "/users",
         json={
             "email": "lucas@gmail.com",
-            "username": "lucas",
-            "password": "Pa7!45sada",
+            "nome": "lucas",
+            "senha": "Pa7!45sada",
         },
     )
 
     assert response.status_code == HTTPStatus.CREATED
 
 
-def test_create_user_with_invalid_password(client):
+def test_create_user_with_invalid_senha(client):
     response = client.post(
         "/users",
         json={
             "email": "pedro@pedro.com",
-            "username": "ruan",
-            "password": "pedro",
+            "nome": "ruan",
+            "senha": "pedro",
         },
     )
 
@@ -32,8 +32,8 @@ def test_create_user_must_return_409(client, user):
         "/users",
         json={
             "email": user.email,
-            "username": user.username,
-            "password": "Pa7!45sada",
+            "nome": user.nome,
+            "senha": "Pa7!45sada",
         },
     )
 
@@ -51,7 +51,7 @@ def test_update_current_user_must_return_200(client, token, headers):
         "/users/me",
         headers=headers,
         json={
-            "username": "lucas",
+            "nome": "lucas",
             "email": "lula@gmail.com",
         },
     )
@@ -64,7 +64,7 @@ def test_update_user_with_partial_data_must_return_200(client, token, headers):
         "/users/me",
         headers=headers,
         json={
-            "username": "lucas",
+            "nome": "lucas",
         },
     )
 
@@ -75,7 +75,7 @@ def test_update_user_must_return_409(client, token, user_2, headers):
     response = client.patch(
         "/users/me",
         headers=headers,
-        json={"username": "lucas", "email": user_2.email},
+        json={"nome": "lucas", "email": user_2.email},
     )
 
     assert response.status_code == HTTPStatus.CONFLICT

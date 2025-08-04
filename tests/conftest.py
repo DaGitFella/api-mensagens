@@ -81,9 +81,9 @@ def message(session, user):
     message = Message(
         titulo="A odisséia de Baesse",
         conteudo="Baesse",
-        id_usuario=user.id,
+        usuario_id=user.id,
         usuario=user,
-        comentarios=[]
+        comentarios=[],
     )
     session.add(message)
     session.commit()
@@ -97,7 +97,7 @@ def message_2(session, user_2):
     message = Message(
         titulo="A odisséia de Baesse",
         conteudo="Baesse",
-        id_usuario=user_2.id,
+        usuario_id=user_2.id,
         usuario=user_2,
         comentarios=[],
     )
@@ -112,8 +112,8 @@ def message_2(session, user_2):
 def comment(session, message, user):
     comment = Comment(
         conteudo="eu odeio essa messagem. Apague",
-        id_usuario=user.id,
-        id_mensagem=message.id,
+        usuario_id=user.id,
+        mensagem_id=message.id,
     )
 
     session.add(comment)

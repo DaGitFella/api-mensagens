@@ -18,13 +18,13 @@ class Comment:
         init=False, nullable=False, server_default=func.now()
     )
 
-    id_autor: Mapped[int] = mapped_column(
+    usuario_id: Mapped[int] = mapped_column(
         ForeignKey("usuarios.id"), nullable=False
     )
     autor: Mapped[Optional["User"]] = relationship(
         "User", back_populates="comentarios", init=False
     )
-    id_mensagem: Mapped[int] = mapped_column(
+    mensagem_id: Mapped[int] = mapped_column(
         ForeignKey("mensagens.id"), nullable=False
     )
     mensagem: Mapped[Optional["Message"]] = relationship(

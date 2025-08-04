@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -38,8 +40,9 @@ class CommentUpdate(BaseModel):
 class PublicComment(BaseModel):
     id: int
     conteudo: str
-    id_autor: int
-    id_mensagem: int
+    usuario_id: int
+    mensagem_id: int
+    data_criacao: datetime
 
 
 class ListComments(BaseModel):

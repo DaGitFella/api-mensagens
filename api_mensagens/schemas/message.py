@@ -58,20 +58,20 @@ class PublicMessage(BaseModel):
     id: int
     titulo: str
     conteudo: str
-    id_usuario: int
+    usuario_id: int
 
 
 class PrivateMessage(BaseModel):
     id: int
     titulo: str
     conteudo: str
-    id_usuario: int
+    usuario_id: int
     comentarios: list[PublicComment]
 
 
 class ListMessages(BaseModel):
-    messages: list[PrivateMessage]
+    mensagens: list[PrivateMessage]
 
 
 class ListPublicMessages(BaseModel):
-    messages: list[PublicMessage]
+    mensagens: list[PublicMessage]

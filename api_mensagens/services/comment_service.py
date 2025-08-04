@@ -23,8 +23,8 @@ def create_comment_service(
 
     comment = Comment(
         conteudo=comment_data.conteudo,
-        id_autor=current_user.id,
-        id_mensagem=id_mensagem,
+        usuario_id=current_user.id,
+        mensagem_id=id_mensagem,
     )
 
     db.add(comment)
@@ -39,7 +39,7 @@ def list_comments_by_message_service(db: Session, id_mensagem: int):
         raise not_found_exception(detail="Message not found.")
 
     return db.scalars(
-        select(Comment).where(Comment.id_mensagem == id_mensagem)
+        select(Comment).where(Comment.mensagem_id == id_mensagem)
     ).all()
 
 

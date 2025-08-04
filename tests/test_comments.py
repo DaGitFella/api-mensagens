@@ -5,15 +5,16 @@ def test_create_comment_must_return_201(client, token, message, headers):
     response = client.post(
         f"/messages/{message.id}/comments",
         headers=headers,
-        json={"content": "eu gosto dessa mensagem"},
+        json={"conteudo": "eu gosto dessa mensagem"},
     )
 
     assert response.status_code == HTTPStatus.CREATED
     assert response.json() == {
         "id": 1,
-        "content": "eu gosto dessa mensagem",
-        "author_id": 1,
-        "message_id": message.id,
+        "conteudo": "eu gosto dessa mensagem",
+        "usuario_id": 1,
+        "mensagem_id": message.id,
+        "data_criacao": response.json().get("data_criacao"),
     }
 
 
@@ -26,12 +27,13 @@ def test_get_message_comments_must_return_200_and_comments(
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
-        "comments": [
+        "comentarios": [
             {
                 "id": comment.id,
-                "content": comment.content,
-                "author_id": comment.author_id,
-                "message_id": comment.message_id,
+                "conteudo": comment.conteudo,
+                "usuario_id": comment.usuario_id,
+                "mensagem_id": comment.mensagem_id,
+                "data_criacao": comment.data_criacao,
             }
         ]
     }
@@ -54,13 +56,13 @@ def test_update_comment_must_return_200(
     response = client.put(
         f"/messages/{message.id}/comments/{comment.id}",
         headers=headers,
-        json={"content": "eu gosto dessa mensagem"},
+        json={"conteudo": "eu gosto dessa mensagem"},
     )
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
         "id": comment.id,
-        "content": "eu gosto dessa mensagem",
-        "author_id": comment.author_id,
-        "message_id": comment.message_id,
+        "conteudo": "eu gosto dessa mensagem",
+        "id_autor": comment.id_autor,
+        "id_mensagem": comment.id_mensagem,
     }

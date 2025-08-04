@@ -16,11 +16,11 @@ def create_message(
     db: Session, message: MessageCreate, current_user: CurrentUser
 ):
     db_message = Message(
-        title=message.title,
-        content=message.content,
-        user_id=current_user.id,
-        user=current_user,
-        comments=[],
+        titulo=message.titulo,
+        conteudo=message.conteudo,
+        usuario_id=current_user.id,
+        usuario=current_user,
+        comentarios=[],
     )
     db.add(db_message)
     db.commit()
@@ -41,7 +41,7 @@ def get_message(db: Session, message_id: int, current_user: CurrentUser):
 
 def get_my_messages(db: Session, current_user: CurrentUser):
     messages = db.scalars(
-        select(Message).where(Message.user_id == current_user.id)
+        select(Message).where(Message.usuario_id == current_user.id)
     ).all()
 
     if not messages:
@@ -57,7 +57,7 @@ def delete_message(db: Session, message_id: int, current_user: CurrentUser):
         db, Message, object_id=message_id, resource_name="message"
     )
 
-    if not current_user.is_staff and message.user_id != current_user.id:
+    if current_user.perfil != "ADMIN" or message.user_id != current_user.id:
         raise forbidden_exception(
             detail="You don't have permission to access this message"
         )
@@ -77,13 +77,13 @@ def update_message(
         db, Message, object_id=message_id, resource_name="message"
     )
 
-    if not current_user.is_staff and db_message.user_id != current_user.id:
+    if current_user.perfil != "ADMIN" or db_message.user_id != current_user.id:
         raise credentials_exception(
             detail="You don't have permission to access this message"
         )
 
-    db_message.title = message.title
-    db_message.content = message.content
+    db_message.titulo = message.titulo
+    db_message.conteudo = message.conteudo
     db.commit()
     db.refresh(db_message)
     return db_message
@@ -99,16 +99,16 @@ def change_message(
         db, Message, object_id=message_id, resource_name="message"
     )
 
-    if not current_user.is_staff and db_message.user_id != current_user.id:
+    if current_user.perfil != "ADMIN" or db_message.user_id != current_user.id:
         raise credentials_exception(
             detail="You don't have permission to access this message"
         )
 
-    if message.title:
-        db_message.title = message.title
+    if message.titulo:
+        db_message.titulo = message.titulo
 
-    if message.content:
-        db_message.content = message.content
+    if message.conteudo:
+        db_message.conteudo = message.conteudo
 
     db.commit()
     db.refresh(db_message)

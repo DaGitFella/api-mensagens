@@ -20,7 +20,7 @@ class Message:
         init=False, nullable=False, server_default=func.now()
     )
 
-    id_usuario: Mapped[int] = mapped_column(
+    usuario_id: Mapped[int] = mapped_column(
         ForeignKey("usuarios.id"), nullable=False
     )
     usuario: Mapped["User"] = relationship("User", back_populates="mensagens")

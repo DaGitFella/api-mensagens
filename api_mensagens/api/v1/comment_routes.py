@@ -41,7 +41,7 @@ def list_comments_by_message(
     db: Session,
 ):
     comments = list_comments_by_message_service(db, message_id)
-    return {"comments": comments}
+    return {"comentarios": comments}
 
 
 @router.delete("/{comment_id}")
