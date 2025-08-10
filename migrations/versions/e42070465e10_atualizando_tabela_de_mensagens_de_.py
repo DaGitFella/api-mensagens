@@ -34,8 +34,8 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('conteudo', sa.String(), nullable=False),
     sa.Column('data_criacao', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.Column('id_usuario', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['id_usuario'], ['usuarios.id'], ),
+    sa.Column('usuario_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['usuario_id'], ['usuarios.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
