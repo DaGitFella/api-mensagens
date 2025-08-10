@@ -13,26 +13,24 @@ from api_mensagens.core.exceptions import (
 
 
 def create_user_service(user: UserCreate, session: Session):
-    db_user: User = session.scalar(select(User).where(User.email == user.email))
-
-    if db_user:
-        raise conflict_exception(detail="User already exists")
-
     hashed_password = get_password_hash(user.senha)
 
-    db_user = User(
-        nome=user.nome,
-        senha=hashed_password,
-        email=user.email,
-        mensagens=[],
-        comentarios=[],
-    )
+    try:
+        db_user = User(
+            nome=user.nome,
+            senha=hashed_password,
+            email=user.email,
+            mensagens=[],
+            comentarios=[],
+        )
 
-    session.add(db_user)
-    session.commit()
-    session.refresh(db_user)
+        session.add(db_user)
+        session.commit()
+        session.refresh(db_user)
 
-    return db_user
+        return db_user
+    except IntegrityError:
+        raise conflict_exception(detail="User already exists")
 
 
 def update_me_service(
