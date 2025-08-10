@@ -1,12 +1,12 @@
 import requests
 from requests.exceptions import ConnectionError, Timeout, RequestException
-
+ 
 BASE_URL = "http://localhost:8000"  # Altere se necessário
 
 usuario_teste = {
     "nome": "Teste User",
     "email": "user@example.com",
-    "senha": "senha123"
+    "senha": "Senha@_123"
 }
 
 def chamada_segura(metodo, url, **kwargs):
@@ -28,17 +28,20 @@ def main():
     # 1️⃣ Criar usuário
     print("1. Criando usuário...")
     resp_usuario = chamada_segura(requests.post, f"{BASE_URL}/usuarios", json=usuario_teste)
-    if resp_usuario and resp_usuario.status_code == 201:
+    if resp_usuario.status_code == 201 or resp_usuario.status_code == 409:
         nota += 5
-        print("   ✅ Usuário criado com sucesso.")
+        if resp_usuario.status_code == 201:
+            print("   ✅ Usuário criado com sucesso.")
+        else:
+            print("   ⚠️ Usuário já existe, seguindo com o teste.")
     else:
-        print("   ❌ Falha ao criar usuário.")
+        print("   ❌ Falha ao criar usuário.", resp_usuario)
 
     # 2️⃣ Autenticar
     print("\n2. Autenticando usuário...")
-    login_resp = chamada_segura(requests.post, f"{BASE_URL}/auth/login", json={
-        "email": usuario_teste["email"],
-        "senha": usuario_teste["senha"]
+    login_resp = chamada_segura(requests.post, f"{BASE_URL}/auth/login", data={
+        "username": usuario_teste["email"],
+        "password": usuario_teste["senha"]
     })
     if login_resp and login_resp.status_code == 200 and "access_token" in login_resp.json():
         token = login_resp.json()["access_token"]
@@ -86,7 +89,7 @@ def main():
             "titulo": "Tentativa sem token",
             "conteudo": "Sem autorização"
         })
-        if put_sem_token and put_sem_token.status_code == 401:
+        if put_sem_token.status_code == 401:
             nota += 5
             print("   ✅ Atualização sem token corretamente negada (401).")
         else:
