@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 def test_create_user_must_return_201(client):
     response = client.post(
-        "/users",
+        "/usuarios",
         json={
             "email": "lucas@gmail.com",
             "nome": "lucas",
@@ -16,7 +16,7 @@ def test_create_user_must_return_201(client):
 
 def test_create_user_with_invalid_senha(client):
     response = client.post(
-        "/users",
+        "/usuarios",
         json={
             "email": "pedro@pedro.com",
             "nome": "ruan",
@@ -29,7 +29,7 @@ def test_create_user_with_invalid_senha(client):
 
 def test_create_user_must_return_409(client, user):
     response = client.post(
-        "/users",
+        "/usuarios",
         json={
             "email": user.email,
             "nome": user.nome,
@@ -41,14 +41,14 @@ def test_create_user_must_return_409(client, user):
 
 
 def test_get_current_user_must_return_200(client, token, headers):
-    response = client.get("/users/me", headers=headers)
+    response = client.get("/usuarios/me", headers=headers)
 
     assert response.status_code == HTTPStatus.OK
 
 
 def test_update_current_user_must_return_200(client, token, headers):
     response = client.patch(
-        "/users/me",
+        "/usuarios/me",
         headers=headers,
         json={
             "nome": "lucas",
@@ -61,7 +61,7 @@ def test_update_current_user_must_return_200(client, token, headers):
 
 def test_update_user_with_partial_data_must_return_200(client, token, headers):
     response = client.patch(
-        "/users/me",
+        "/usuarios/me",
         headers=headers,
         json={
             "nome": "lucas",
@@ -73,7 +73,7 @@ def test_update_user_with_partial_data_must_return_200(client, token, headers):
 
 def test_update_user_must_return_409(client, token, user_2, headers):
     response = client.patch(
-        "/users/me",
+        "/usuarios/me",
         headers=headers,
         json={"nome": "lucas", "email": user_2.email},
     )
@@ -82,6 +82,6 @@ def test_update_user_must_return_409(client, token, user_2, headers):
 
 
 def test_delete_user_must_return_200(client, token, headers):
-    response = client.delete("/users/me", headers=headers)
+    response = client.delete("/usuarios/me", headers=headers)
 
     assert response.status_code == HTTPStatus.OK

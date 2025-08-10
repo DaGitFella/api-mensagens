@@ -27,9 +27,9 @@ def create_comment(
     comment: CommentCreate,
     db: Session,
     current_user: CurrentUser,
-    message_id: int,
+    id_mensagem: int,
 ):
-    return create_comment_service(db, message_id, comment, current_user)
+    return create_comment_service(db, id_mensagem, comment, current_user)
 
 
 @router.get(
@@ -37,10 +37,10 @@ def create_comment(
     response_model=ListComments,
 )
 def list_comments_by_message(
-    message_id: int,
+    id_mensagem: int,
     db: Session,
 ):
-    comments = list_comments_by_message_service(db, message_id)
+    comments = list_comments_by_message_service(db, id_mensagem)
     return {"comentarios": comments}
 
 

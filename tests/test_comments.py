@@ -3,12 +3,11 @@ from http import HTTPStatus
 
 def test_create_comment_must_return_201(client, token, message, headers):
     response = client.post(
-        f"/messages/{message.id}/comments",
+        f"/mensagens/{message.id}/comentarios",
         headers=headers,
         json={"conteudo": "eu gosto dessa mensagem"},
     )
 
-    assert response.status_code == HTTPStatus.CREATED
     assert response.json() == {
         "id": 1,
         "conteudo": "eu gosto dessa mensagem",
@@ -16,13 +15,14 @@ def test_create_comment_must_return_201(client, token, message, headers):
         "mensagem_id": message.id,
         "data_criacao": response.json().get("data_criacao"),
     }
+    assert response.status_code == HTTPStatus.CREATED
 
 
 def test_get_message_comments_must_return_200_and_comments(
     client, message, comment
 ):
     response = client.get(
-        f"/messages/{message.id}/comments",
+        f"/mensagens/{message.id}/comentarios",
     )
 
     assert response.status_code == HTTPStatus.OK
@@ -43,7 +43,7 @@ def test_delete_comment_must_return_200(
     client, token, headers, message, comment
 ):
     response = client.delete(
-        f"/messages/{message.id}/comments/{comment.id}", headers=headers
+        f"/mensagens/{message.id}/comentarios/{comment.id}", headers=headers
     )
 
     assert response.status_code == HTTPStatus.OK
@@ -54,7 +54,7 @@ def test_update_comment_must_return_200(
     client, token, headers, comment, message
 ):
     response = client.put(
-        f"/messages/{message.id}/comments/{comment.id}",
+        f"/mensagens/{message.id}/comentarios/{comment.id}",
         headers=headers,
         json={"conteudo": "eu gosto dessa mensagem"},
     )

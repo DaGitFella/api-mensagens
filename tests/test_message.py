@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 def test_create_message_must_return_201_and_message(client, token, headers):
     response = client.post(
-        "/messages",
+        "/mensagens",
         headers=headers,
         json={
             "titulo": "A saga de amor de Baesse",
@@ -21,13 +21,13 @@ def test_create_message_must_return_201_and_message(client, token, headers):
 
 
 def test_create_message_must_return_401(client):
-    response = client.post("/messages", json={"conteudo": "Testes vicenzo"})
+    response = client.post("/mensagens", json={"conteudo": "Testes vicenzo"})
 
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 
 def test_create_message_with_invalid_content(client, token, headers):
-    response = client.post("/messages", headers=headers, json={"conteudo": ""})
+    response = client.post("/mensagens", headers=headers, json={"conteudo": ""})
 
     assert response.status_code == HTTPStatus.UNPROCESSABLE_CONTENT
 
@@ -36,7 +36,7 @@ def test_get_messages_must_return_200_and_message(
     client,
     message,
 ):
-    response = client.get("/messages")
+    response = client.get("/mensagens")
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
@@ -55,7 +55,7 @@ def tet_get_one_message_must_return_200_and_message(
     client, message, token, headers
 ):
     response = client.get(
-        f"/messages/{message.id}",
+        f"/mensagens/{message.id}",
         headers=headers,
     )
 
@@ -65,7 +65,7 @@ def tet_get_one_message_must_return_200_and_message(
 
 def test_get_message_must_return_401(client, message):
     response = client.get(
-        "/messages/1",
+        "/mensagens/1",
     )
 
     assert response.status_code == HTTPStatus.UNAUTHORIZED
@@ -75,7 +75,7 @@ def test_update_message_must_return_200_and_message(
     client, message, token, headers
 ):
     response = client.put(
-        f"/messages/{message.id}",
+        f"/mensagens/{message.id}",
         headers=headers,
         json={
             "titulo": "A perda do amor de Baesse",
@@ -96,7 +96,7 @@ def test_update_message_with_partial_content_must_return_200_and_message(
     client, message, token, headers
 ):
     response = client.patch(
-        f"/messages/{message.id}",
+        f"/mensagens/{message.id}",
         headers=headers,
         json={
             "titulo": "A morte do rei gado",
@@ -116,7 +116,7 @@ def test_update_message_with_partial_content_must_return_200_and_message(
 def test_delete_message_must_return_200_and_detail(
     client, message, token, headers
 ):
-    response = client.delete(f"/messages/{message.id}", headers=headers)
+    response = client.delete(f"/mensagens/{message.id}", headers=headers)
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
@@ -127,6 +127,6 @@ def test_delete_message_must_return_200_and_detail(
 def test_delete_other_message_must_return_403_and_detail(
     client, message, message_2, token, headers
 ):
-    response = client.delete(f"/messages/{message_2.id}", headers=headers)
+    response = client.delete(f"/mensagens/{message_2.id}", headers=headers)
 
     assert response.status_code == HTTPStatus.FORBIDDEN
