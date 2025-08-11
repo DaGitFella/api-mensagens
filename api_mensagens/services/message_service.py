@@ -84,7 +84,7 @@ def update_message(
         current_user.perfil != "ADMIN"
         and db_message.usuario_id != current_user.id
     ):
-        raise credentials_exception(
+        raise forbidden_exception(
             detail="You don't have permission to access this message"
         )
 
@@ -109,7 +109,7 @@ def change_message(
         current_user.perfil != "ADMIN"
         and db_message.usuario_id != current_user.id
     ):
-        raise credentials_exception(
+        raise forbidden_exception(
             detail="You don't have permission to access this message"
         )
 

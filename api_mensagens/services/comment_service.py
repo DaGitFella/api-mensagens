@@ -3,7 +3,7 @@ from sqlalchemy import select
 from api_mensagens.core.exceptions import (
     get_or_404,
     credentials_exception,
-    not_found_exception,
+    not_found_exception, forbidden_exception,
 )
 from api_mensagens.models.comment import Comment
 from api_mensagens.models.message import Message
@@ -55,7 +55,7 @@ def update_comment_service(
         current_user.perfil != "ADMIN"
         and comment.usuario_id != current_user.id
     ):
-        raise credentials_exception(
+        raise forbidden_exception(
             detail="You can only update your own comments."
         )
 
@@ -76,7 +76,7 @@ def delete_comment_service(
         current_user.perfil != "ADMIN"
         and comment.usuario_id != current_user.id
     ):
-        raise credentials_exception(
+        raise forbidden_exception(
             detail="You can only delete your own comments."
         )
 
