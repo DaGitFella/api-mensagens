@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator
@@ -59,6 +60,7 @@ class PublicMessage(BaseModel):
     titulo: str
     conteudo: str
     usuario_id: int
+    data_criacao: datetime
 
 
 class PrivateMessage(BaseModel):
