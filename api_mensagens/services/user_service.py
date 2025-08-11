@@ -1,6 +1,5 @@
 from sqlalchemy.exc import IntegrityError
 
-from sqlalchemy import select
 
 from api_mensagens.models.user import User
 from api_mensagens.schemas.user import UserCreate, UserUpdate
@@ -67,7 +66,7 @@ def delete_me_service(
 def delete_user_service(
     session: Session, current_user: CurrentUser, user_id: int
 ):
-    if current_user.perfil == 'admin' or current_user.id == user_id:
+    if current_user.perfil == "admin" or current_user.id == user_id:
         user = get_or_404(session, User, user_id)
         session.delete(user)
         session.commit()
@@ -82,7 +81,7 @@ def update_user_service(
     current_user: CurrentUser,
     user_id: int,
 ):
-    if current_user.perfil == 'admin' or current_user.id != user_id:
+    if current_user.perfil == "admin" or current_user.id != user_id:
         raise forbidden_exception("You can't update other users.")
 
     if update_data.username:

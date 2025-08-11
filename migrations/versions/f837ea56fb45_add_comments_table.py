@@ -25,9 +25,9 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('conteudo', sa.String(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.Column('id_autor', sa.Integer(), nullable=False),
+    sa.Column('usuario_id', sa.Integer(), nullable=False),
     sa.Column('id_mensagem', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['id_autor'], ['usuarios.id'], ),
+    sa.ForeignKeyConstraint(['usuario_id'], ['usuarios.id'], ),
     sa.ForeignKeyConstraint(['id_mensagem'], ['mensagens.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

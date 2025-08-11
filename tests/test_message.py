@@ -27,7 +27,9 @@ def test_create_message_must_return_401(client):
 
 
 def test_create_message_with_invalid_content(client, token, headers):
-    response = client.post("/mensagens", headers=headers, json={"conteudo": ""})
+    response = client.post(
+        "/mensagens", headers=headers, json={"conteudo": ""}
+    )
 
     assert response.status_code == HTTPStatus.UNPROCESSABLE_CONTENT
 

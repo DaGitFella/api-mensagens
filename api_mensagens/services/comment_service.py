@@ -51,7 +51,10 @@ def update_comment_service(
 ):
     comment: Comment = get_or_404(db, Comment, comment_id, "comment")
 
-    if current_user.perfil != "ADMIN" and comment.usuario_id != current_user.id:
+    if (
+        current_user.perfil != "ADMIN"
+        and comment.usuario_id != current_user.id
+    ):
         raise credentials_exception(
             detail="You can only update your own comments."
         )
@@ -69,7 +72,10 @@ def delete_comment_service(
 ):
     comment: Comment = get_or_404(db, Comment, comment_id, "comment")
 
-    if current_user.perfil != "ADMIN" and comment.usuario_id != current_user.id:
+    if (
+        current_user.perfil != "ADMIN"
+        and comment.usuario_id != current_user.id
+    ):
         raise credentials_exception(
             detail="You can only delete your own comments."
         )
