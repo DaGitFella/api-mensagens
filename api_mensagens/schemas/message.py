@@ -19,6 +19,8 @@ class MessageCreate(BaseModel):
         examples=["Baesse heróico", "Vincente não me deu 100 :/"],
     )
 
+    curtidas: int = 0
+
     @field_validator("conteudo", "titulo")
     @classmethod
     def content_not_blank(cls, value: str):
