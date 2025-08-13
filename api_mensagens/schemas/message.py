@@ -69,6 +69,7 @@ class PrivateMessage(BaseModel):
     conteudo: str
     usuario_id: int
     comentarios: list[PublicComment]
+    curtidas: int
 
 
 class ListMessages(BaseModel):

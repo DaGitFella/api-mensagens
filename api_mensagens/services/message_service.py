@@ -1,5 +1,6 @@
 from sqlalchemy import select
 
+from api_mensagens import db
 from api_mensagens.core.exceptions import (
     get_or_404,
     credentials_exception,
@@ -121,4 +122,22 @@ def change_message(
 
     db.commit()
     db.refresh(db_message)
+    return db_message
+
+def curtir_mensagem(
+        message_id: int,
+        current_user: CurrentUser,
+        db: Session,
+):
+    db_message = db.scalar(select(Message).where(Message.id == message_id))
+
+    if db_message.usuario_id == current_user.id:
+        raise forbidden_exception(
+            detail="Você não pode curtir as próprias mensagens"
+        )
+
+    db_message.curtidas += 1
+    db.commit()
+    db.refresh(db_message)
+
     return db_message

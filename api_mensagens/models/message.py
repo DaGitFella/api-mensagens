@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import func, ForeignKey
+from sqlalchemy import func, ForeignKey, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from api_mensagens.db.base import table_registry
 from typing import TYPE_CHECKING, List
@@ -21,7 +21,8 @@ class Message:
     )
     curtidas: Mapped[int] = mapped_column(
         init=False, nullable=False,
-        server_default='0'
+        default=0,
+        server_default=text('0')
     )
     usuario_id: Mapped[int] = mapped_column(
         ForeignKey("usuarios.id"), nullable=False

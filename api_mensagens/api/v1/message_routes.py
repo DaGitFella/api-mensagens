@@ -66,6 +66,10 @@ def change_message(
     )
 
 
-@router.delete("/{message_id}")
+@router.delete("/{message_id}", status_code=HTTPStatus.NO_CONTENT)
 def delete_message(message_id, db: Session, current_user: CurrentUser):
     return message_service.delete_message(db, message_id, current_user)
+
+@router.post('/{message_id}/curtir', response_model=PublicMessage)
+def curtir_message(message_id: int, db: Session, current_user: CurrentUser):
+    return message_service.curtir_mensagem(message_id, db, current_user)
