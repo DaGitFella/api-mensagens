@@ -72,4 +72,4 @@ def delete_message(message_id, db: Session, current_user: CurrentUser):
 
 @router.post('/{message_id}/curtir', response_model=PublicMessage)
 def curtir_message(message_id: int, db: Session, current_user: CurrentUser):
-    return message_service.curtir_mensagem(db=db, message_id=message_id, current_user=current_user)
+    return message_service.curtir_mensagem(banco=db, message_id=message_id, current_user=current_user)

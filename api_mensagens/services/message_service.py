@@ -133,7 +133,7 @@ def curtir_mensagem(banco: Session, message_id: int, current_user: CurrentUser):
         )
 
     db_message.curtidas += 1
-    db.commit()
-    db.refresh(db_message)
+    banco.commit()
+    banco.refresh(db_message)
 
     return db_message
