@@ -19,7 +19,10 @@ class Message:
     data_criacao: Mapped[datetime] = mapped_column(
         init=False, nullable=False, server_default=func.now()
     )
-
+    curtidas: Mapped[int] = mapped_column(
+        init=False, nullable=False,
+        server_default='0'
+    )
     usuario_id: Mapped[int] = mapped_column(
         ForeignKey("usuarios.id"), nullable=False
     )
